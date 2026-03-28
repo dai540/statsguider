@@ -4,6 +4,11 @@ Simple statistical test selection from a `data.frame`.
 
 `statsguider` helps you choose a statistical method by branching on data properties, then run the recommended method.
 
+## Website
+
+- GitHub Pages site: [https://dai540.github.io/statsguider/](https://dai540.github.io/statsguider/)
+- Site index HTML in the repository: [docs/index.html](https://github.com/dai540/statsguider/blob/main/docs/index.html)
+
 ## Install
 
 ```r
@@ -31,15 +36,15 @@ select_test(
 ## Learn by scenarios
 
 - English
-  - [Start here](articles/en-start.html)
-  - [Choose by branching](articles/en-branching.html)
-  - [Scenario tutorials](articles/en-examples.html)
-  - [Main functions](articles/en-functions.html)
+  - [Start here](https://dai540.github.io/statsguider/articles/en-start.html)
+  - [Choose by branching](https://dai540.github.io/statsguider/articles/en-branching.html)
+  - [Scenario tutorials](https://dai540.github.io/statsguider/articles/en-examples.html)
+  - [Main functions](https://dai540.github.io/statsguider/articles/en-functions.html)
 - 日本語
-  - [はじめに](articles/ja-start.html)
-  - [分岐で選ぶ](articles/ja-branching.html)
-  - [シナリオ別チュートリアル](articles/ja-examples.html)
-  - [主な関数](articles/ja-functions.html)
+  - [はじめに](https://dai540.github.io/statsguider/articles/ja-start.html)
+  - [分岐で選ぶ](https://dai540.github.io/statsguider/articles/ja-branching.html)
+  - [シナリオ別チュートリアル](https://dai540.github.io/statsguider/articles/ja-examples.html)
+  - [主な関数](https://dai540.github.io/statsguider/articles/ja-functions.html)
 
 ## What the tutorial pages do
 

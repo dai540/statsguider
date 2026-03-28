@@ -86,8 +86,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: Welchのt検定
 #> - 代替手法: Mann-Whitney U検定
 #> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
@@ -121,7 +121,7 @@ select_test(
 #> statsguider の結果
 #> - 手法: Welchのt検定
 #> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判定されたためです。
+#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判断されたためです。
 ```
 
 ## 2. `guided_test()`
@@ -170,8 +170,8 @@ guided_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: Welchのt検定
 #> - 代替手法: Mann-Whitney U検定
 #> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
@@ -213,8 +213,8 @@ recommend_test(
   repeated = "no",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: Welchのt検定
 #> - 代替手法: Mann-Whitney U検定
 #> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
@@ -252,7 +252,7 @@ run_test(
 #> statsguider の結果
 #> - 手法: Welchのt検定
 #> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判定されたためです。
+#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判断されたためです。
 ```
 
 ### 向いている場面

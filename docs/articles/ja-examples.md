@@ -38,8 +38,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: Welchのt検定
 #> - 代替手法: Mann-Whitney U検定
 #> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
@@ -61,7 +61,7 @@ run_test(
 #> statsguider の結果
 #> - 手法: Welchのt検定
 #> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判定されたためです。
+#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判断されたためです。
 ```
 
 ## シナリオ2: 対応ありの前後比較
@@ -101,8 +101,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: 対応のあるt検定
 #> - 代替手法: Wilcoxon符号順位検定
 #> - 理由: 対応のある2時点の連続アウトカムで正規性も大きくは外れていないと判断しました。
@@ -153,8 +153,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: Welch ANOVA
 #> - 代替手法: Kruskal-Wallis検定
 #> - 理由: 3群以上の独立した連続アウトカムで正規性も大きくは外れていないと判断しました。
@@ -198,8 +198,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: Fisher正確確率検定
 #> - 代替手法: χ²検定
 #> - 理由: 独立2群のカテゴリデータで期待度数が小さいセルがあります。
@@ -248,8 +248,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: McNemar検定
 #> - 理由: 対応のある二値データと判断しました。
 #> - 次の一歩: McNemar検定に進みます。
@@ -304,8 +304,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 推奨
+#> statsguider の推奨
+#> - 判定: 推奨
 #> - 推奨手法: Friedman検定
 #> - 代替手法: 反復測定ANOVA
 #> - 理由: 反復測定の順序データと判断しました。
@@ -347,8 +347,8 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 別枝へ案内
+#> statsguider の推奨
+#> - 判定: 別枝へ案内
 #> - 理由: 調整が必要なので単純な非調整検定は適切な主枝ではありません。
 #> - 次の一歩: 回帰または混合モデルの枝に進んでください。
 #> - 補足:
@@ -391,12 +391,12 @@ select_test(
   run = "recommend",
   language = "ja"
 )
-#> statsguider の案内
-#> - 動作: 別枝へ案内
+#> statsguider の推奨
+#> - 判定: 別枝へ案内
 #> - 理由: カウントアウトカムは単純比較検定に無理に入れるべきではありません。
 #> - 次の一歩: Poisson回帰または負の二項回帰に進んでください。
 #> - 補足:
-#>   * カウントアウトカムは通常、Poisson 回帰または負の二項回帰に進むべきです。
+#>   * カウントアウトカムは通常、Poisson 回帰または負の二項回帰へ進む方が適切です。
 ```
 
 このように、`statsguider`
