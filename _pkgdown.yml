@@ -1,0 +1,76 @@
+url: https://dai540.github.io/statsguider/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly
+
+development:
+  mode: unreleased
+
+home:
+  title: statsguider
+  description: Simple statistical test selection from a data frame.
+  sidebar:
+    structure: []
+
+navbar:
+  structure:
+    left: [intro, english, japanese, reference]
+    right: [search]
+  components:
+    intro:
+      text: Home
+      href: index.html
+    english:
+      text: English
+      menu:
+        - text: Start here
+          href: articles/en-start.html
+        - text: Choose by branching
+          href: articles/en-branching.html
+        - text: Scenario tutorials
+          href: articles/en-examples.html
+        - text: Main functions
+          href: articles/en-functions.html
+    japanese:
+      text: 日本語
+      menu:
+        - text: はじめに
+          href: articles/ja-start.html
+        - text: 分岐で選ぶ
+          href: articles/ja-branching.html
+        - text: シナリオ別チュートリアル
+          href: articles/ja-examples.html
+        - text: 主な関数
+          href: articles/ja-functions.html
+    reference:
+      text: Reference
+      href: reference/index.html
+
+articles:
+  - title: English
+    navbar: English
+    contents:
+      - en-start
+      - en-branching
+      - en-examples
+      - en-functions
+  - title: 日本語
+    navbar: 日本語
+    contents:
+      - ja-start
+      - ja-branching
+      - ja-examples
+      - ja-functions
+
+reference:
+  - title: Main functions
+    contents:
+      - select_test
+      - guided_test
+      - recommend_test
+      - run_test
+      - check_design
+  - title: Example data
+    contents:
+      - wet_example

@@ -1,0 +1,16 @@
+pandoc: 3.6.3
+pkgdown: 2.2.0
+pkgdown_sha: ~
+articles:
+  en-branching: en-branching.html
+  en-examples: en-examples.html
+  en-functions: en-functions.html
+  en-start: en-start.html
+  ja-branching: ja-branching.html
+  ja-examples: ja-examples.html
+  ja-functions: ja-functions.html
+  ja-start: ja-start.html
+last_built: 2026-03-28T03:46Z
+urls:
+  reference: https://dai540.github.io/statsguider/reference
+  article: https://dai540.github.io/statsguider/articles

@@ -1,0 +1,239 @@
+---
+title: "Scenario tutorials"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Scenario tutorials}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(statsguider)
+```
+
+This tutorial creates several small data tables and applies `statsguider` to each one.
+
+## Scenario 1: two independent continuous groups
+
+```{r}
+tbl_continuous <- data.frame(
+  group = c(rep("control", 6), rep("treated", 6)),
+  biomarker = c(10.2, 10.4, 10.1, 10.5, 10.3, 10.0, 11.1, 11.4, 11.0, 11.3, 11.5, 11.2)
+)
+
+tbl_continuous
+```
+
+```{r}
+select_test(
+  data = tbl_continuous,
+  outcome = "biomarker",
+  group = "group",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  run = "recommend",
+  language = "en"
+)
+```
+
+```{r}
+run_test(
+  data = tbl_continuous,
+  outcome = "biomarker",
+  group = "group",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  language = "en"
+)
+```
+
+## Scenario 2: paired before-after measurements
+
+```{r}
+tbl_paired <- data.frame(
+  id = rep(paste0("S", 1:6), each = 2),
+  visit = rep(c("before", "after"), times = 6),
+  value = c(8.2, 9.0, 7.9, 8.8, 8.5, 9.1, 8.1, 8.9, 8.3, 9.0, 8.0, 8.7)
+)
+
+tbl_paired
+```
+
+```{r}
+select_test(
+  data = tbl_paired,
+  outcome = "value",
+  group = "visit",
+  id = "id",
+  outcome_type = "continuous",
+  paired = "yes",
+  repeated = "no",
+  run = "recommend",
+  language = "en"
+)
+```
+
+## Scenario 3: three independent continuous groups
+
+```{r}
+tbl_three_groups <- data.frame(
+  group = rep(c("control", "drugA", "drugB"), each = 5),
+  biomarker = c(
+    9.8, 10.1, 10.0, 9.9, 10.2,
+    10.8, 10.9, 11.1, 10.7, 11.0,
+    11.4, 11.2, 11.5, 11.3, 11.6
+  )
+)
+
+tbl_three_groups
+```
+
+```{r}
+select_test(
+  data = tbl_three_groups,
+  outcome = "biomarker",
+  group = "group",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  run = "recommend",
+  language = "en"
+)
+```
+
+## Scenario 4: small categorical table
+
+```{r}
+tbl_small_cat <- data.frame(
+  group = c(rep("control", 6), rep("treated", 6)),
+  response = c("yes", "no", "no", "no", "no", "no", "yes", "yes", "no", "no", "no", "no")
+)
+
+tbl_small_cat
+```
+
+```{r}
+select_test(
+  data = tbl_small_cat,
+  outcome = "response",
+  group = "group",
+  outcome_type = "binary",
+  paired = "no",
+  repeated = "no",
+  run = "recommend",
+  language = "en"
+)
+```
+
+## Scenario 5: paired binary response
+
+```{r}
+tbl_paired_binary <- data.frame(
+  id = rep(paste0("P", 1:8), each = 2),
+  visit = rep(c("before", "after"), times = 8),
+  response = c("no", "yes", "no", "no", "yes", "yes", "no", "yes",
+               "yes", "yes", "no", "yes", "no", "no", "yes", "yes")
+)
+
+tbl_paired_binary
+```
+
+```{r}
+select_test(
+  data = tbl_paired_binary,
+  outcome = "response",
+  group = "visit",
+  id = "id",
+  outcome_type = "binary",
+  paired = "yes",
+  repeated = "no",
+  run = "recommend",
+  language = "en"
+)
+```
+
+## Scenario 6: repeated ordinal data
+
+```{r}
+tbl_repeated_ordinal <- data.frame(
+  id = rep(paste0("S", 1:5), each = 3),
+  visit = rep(c("baseline", "week2", "week4"), times = 5),
+  score = ordered(
+    c(
+      "high", "medium", "low",
+      "medium", "medium", "low",
+      "high", "medium", "medium",
+      "medium", "low", "low",
+      "high", "medium", "low"
+    ),
+    levels = c("low", "medium", "high")
+  )
+)
+
+tbl_repeated_ordinal
+```
+
+```{r}
+select_test(
+  data = tbl_repeated_ordinal,
+  outcome = "score",
+  group = "visit",
+  id = "id",
+  outcome_type = "ordinal",
+  paired = "no",
+  repeated = "yes",
+  run = "recommend",
+  language = "en"
+)
+```
+
+## Scenario 7: stop and redirect because adjustment is needed
+
+```{r}
+tbl_adjust <- data.frame(
+  group = c(rep("control", 6), rep("treated", 6)),
+  age = c(41, 45, 39, 48, 42, 44, 37, 40, 38, 43, 39, 41),
+  biomarker = c(10.2, 10.4, 10.1, 10.5, 10.3, 10.0, 11.1, 11.4, 11.0, 11.3, 11.5, 11.2)
+)
+
+tbl_adjust
+```
+
+```{r}
+select_test(
+  data = tbl_adjust,
+  outcome = "biomarker",
+  group = "group",
+  outcome_type = "continuous",
+  adjust = "yes",
+  run = "recommend",
+  language = "en"
+)
+```
+
+## Scenario 8: stop and redirect because the outcome is a count
+
+```{r}
+tbl_count <- data.frame(
+  group = c(rep("control", 6), rep("treated", 6)),
+  colonies = c(12, 10, 11, 14, 9, 13, 18, 17, 20, 16, 19, 18)
+)
+
+tbl_count
+```
+
+```{r}
+select_test(
+  data = tbl_count,
+  outcome = "colonies",
+  group = "group",
+  outcome_type = "count",
+  paired = "no",
+  repeated = "no",
+  run = "recommend",
+  language = "en"
+)
+```

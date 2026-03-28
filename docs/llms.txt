@@ -1,0 +1,105 @@
+# statsguider
+
+Simple statistical test selection from a `data.frame`.
+
+`statsguider` helps you choose a statistical method by branching on data
+properties, then run the recommended method.
+
+## Install
+
+``` r
+install.packages("remotes")
+remotes::install_github("dai540/statsguider")
+library(statsguider)
+```
+
+## Fastest way to use it
+
+``` r
+dat <- subset(wet_example, visit == "week4")
+
+select_test(
+  data = dat,
+  outcome = "biomarker",
+  group = "group",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  run = "run"
+)
+```
+
+## Learn by scenarios
+
+- English
+  - [Start
+    here](https://dai540.github.io/statsguider/articles/en-start.md)
+  - [Choose by
+    branching](https://dai540.github.io/statsguider/articles/en-branching.md)
+  - [Scenario
+    tutorials](https://dai540.github.io/statsguider/articles/en-examples.md)
+  - [Main
+    functions](https://dai540.github.io/statsguider/articles/en-functions.md)
+- 日本語
+  - [はじめに](https://dai540.github.io/statsguider/articles/ja-start.md)
+  - [分岐で選ぶ](https://dai540.github.io/statsguider/articles/ja-branching.md)
+  - [シナリオ別チュートリアル](https://dai540.github.io/statsguider/articles/ja-examples.md)
+  - [主な関数](https://dai540.github.io/statsguider/articles/ja-functions.md)
+
+## What the tutorial pages do
+
+- English
+  - each tutorial creates a small data table
+  - each tutorial applies
+    [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
+    or
+    [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
+  - each scenario shows how to set the branching arguments
+- 日本語
+  - 各チュートリアルで小さなデータ表を自分で作ります
+  - そのデータ表に
+    [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
+    や
+    [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
+    を適用します
+  - 分岐に必要な引数をどう設定するかも一緒に示します
+
+# Package index
+
+## Main functions
+
+- [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
+  : Select and Optionally Run a Statistical Test
+- [`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
+  : Guide a User Through Simple Test Selection
+- [`recommend_test()`](https://dai540.github.io/statsguider/reference/recommend_test.md)
+  : Recommend a Statistical Test from Simple Data Properties
+- [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
+  : Run a Recommended Statistical Test
+- [`check_design()`](https://dai540.github.io/statsguider/reference/check_design.md)
+  : Check Whether a Design Fits the Simple Branching Workflow
+
+## Example data
+
+- [`wet_example`](https://dai540.github.io/statsguider/reference/wet_example.md)
+  : Example Wet-Lab Style Dataset
+
+# Articles
+
+### English
+
+- [Start
+  here](https://dai540.github.io/statsguider/articles/en-start.md):
+- [Choose by
+  branching](https://dai540.github.io/statsguider/articles/en-branching.md):
+- [Scenario
+  tutorials](https://dai540.github.io/statsguider/articles/en-examples.md):
+- [Main
+  functions](https://dai540.github.io/statsguider/articles/en-functions.md):
+
+### 日本語
+
+- [はじめに](https://dai540.github.io/statsguider/articles/ja-start.md):
+- [分岐で選ぶ](https://dai540.github.io/statsguider/articles/ja-branching.md):
+- [シナリオ別チュートリアル](https://dai540.github.io/statsguider/articles/ja-examples.md):
+- [主な関数](https://dai540.github.io/statsguider/articles/ja-functions.md):

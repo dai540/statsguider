@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 592">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#0f4c5c"/>
+      <stop offset="100%" stop-color="#2a9d8f"/>
+    </linearGradient>
+  </defs>
+  <path d="M256 12 474 138v252L256 516 38 390V138Z" fill="url(#bg)" stroke="#12343b" stroke-width="22" />
+  <circle cx="171" cy="198" r="22" fill="#f4f1de" opacity="0.9"/>
+  <circle cx="256" cy="162" r="22" fill="#f4f1de" opacity="0.9"/>
+  <circle cx="341" cy="198" r="22" fill="#f4f1de" opacity="0.9"/>
+  <path d="M171 198 256 162 341 198" fill="none" stroke="#f4f1de" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+  <rect x="84" y="236" width="344" height="100" rx="22" fill="#f4f1de" opacity="0.96"/>
+  <text x="256" y="298" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="700" fill="#0f4c5c">statsguider</text>
+</svg>
