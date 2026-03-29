@@ -1,23 +1,79 @@
-# statsguider
+# statsguider <img src="man/figures/logo.svg" align="right" height="88" alt="statsguider logo" />
 
-Simple statistical test selection from a `data.frame`.
+[![pkgdown](https://img.shields.io/badge/docs-pkgdown-315c86)](https://dai540.github.io/statsguider/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-`statsguider` helps you choose a statistical method by branching on data properties, then run the recommended method.
+`statsguider` is an R package for simple, guided statistical test selection.
+It starts from a `data.frame`, asks for a small set of study-design choices,
+then recommends an appropriate method or stops when a simple test is not the
+right branch.
 
-## Website
+The package is designed for researchers who want a narrow and practical
+workflow:
 
-- GitHub Pages site: [https://dai540.github.io/statsguider/](https://dai540.github.io/statsguider/)
-- Site index HTML in the repository: [docs/index.html](https://github.com/dai540/statsguider/blob/main/docs/index.html)
+- choose the outcome column
+- choose the group column
+- declare whether the data are paired or repeated
+- declare whether adjustment is needed
+- run the recommended simple test when appropriate
 
-## Install
+`statsguider` is built around five main jobs:
+
+- `select_test()` for the main one-shot interface
+- `guided_test()` for step-by-step branching
+- `recommend_test()` for recommendation without execution
+- `run_test()` for guarded execution of the selected method
+- `check_design()` for stopping inappropriate simple analyses early
+
+The package is intentionally narrow in version 1.0.0. It focuses on
+single-outcome group comparison workflows and redirects users when the data
+belong in regression, survival analysis, agreement analysis, equivalence, or
+count-model branches.
+
+## Installation
+
+Install from GitHub:
+
+```r
+install.packages("pak")
+pak::pak("dai540/statsguider")
+```
+
+Or:
 
 ```r
 install.packages("remotes")
 remotes::install_github("dai540/statsguider")
+```
+
+Or install from a source tarball:
+
+```r
+install.packages("path/to/statsguider_1.0.0.tar.gz", repos = NULL, type = "source")
+```
+
+Then load the package:
+
+```r
 library(statsguider)
 ```
 
+## Citation
+
+If you use `statsguider`, cite the package as:
+
+> Dai (2026). *statsguider: Guided Statistical Test Selection from a Data Frame*.
+> R package. <https://dai540.github.io/statsguider/>
+
+You can also retrieve the citation from R:
+
+```r
+citation("statsguider")
+```
+
 ## Fastest way to use it
+
+The simplest entry point is `select_test()`.
 
 ```r
 dat <- subset(wet_example, visit == "week4")
@@ -33,26 +89,59 @@ select_test(
 )
 ```
 
-## Learn by scenarios
+## Core workflow
 
-- English
-  - [Start here](https://dai540.github.io/statsguider/articles/en-start.html)
-  - [Choose by branching](https://dai540.github.io/statsguider/articles/en-branching.html)
-  - [Scenario tutorials](https://dai540.github.io/statsguider/articles/en-examples.html)
-  - [Main functions](https://dai540.github.io/statsguider/articles/en-functions.html)
-- 日本語
-  - [はじめに](https://dai540.github.io/statsguider/articles/ja-start.html)
-  - [分岐で選ぶ](https://dai540.github.io/statsguider/articles/ja-branching.html)
-  - [シナリオ別チュートリアル](https://dai540.github.io/statsguider/articles/ja-examples.html)
-  - [主な関数](https://dai540.github.io/statsguider/articles/ja-functions.html)
+`statsguider` does three things.
 
-## What the tutorial pages do
+- classifies the data into a simple branch
+- recommends a method with a short explanation
+- runs the method only when the branch is appropriate
 
-- English
-  - each tutorial creates a small data table
-  - each tutorial applies `select_test()` or `run_test()`
-  - each scenario shows how to set the branching arguments
-- 日本語
-  - 各チュートリアルで小さなデータ表を自分で作ります
-  - そのデータ表に `select_test()` や `run_test()` を適用します
-  - 分岐に必要な引数をどう設定するかも一緒に示します
+In practice, the package is doing this:
+
+1. inspect the outcome type
+2. inspect whether groups are independent, paired, or repeated
+3. check whether a simple test is appropriate
+4. recommend a test such as Welch t-test, paired t-test, Fisher exact test, or Friedman test
+5. redirect when the question needs a model rather than a simple test
+
+## Main functions
+
+- `select_test()`
+- `guided_test()`
+- `recommend_test()`
+- `run_test()`
+- `check_design()`
+
+## Tutorial structure
+
+The website is organized around:
+
+- `Get Started`
+  - package overview
+  - branching logic
+  - main functions
+- `Articles`
+  - English scenario tutorials
+  - Japanese scenario tutorials
+  - English and Japanese branching guides
+
+Every scenario tutorial creates a small data table and applies `select_test()`
+or `run_test()` to it.
+
+## Documentation
+
+- Website: <https://dai540.github.io/statsguider/>
+- GitHub Pages index: <https://dai540.github.io/statsguider/index.html>
+- Repository copy of the site index: <https://github.com/dai540/statsguider/blob/main/docs/index.html>
+
+## Language-specific tutorials
+
+- English start page: <https://dai540.github.io/statsguider/articles/en-start.html>
+- English branching guide: <https://dai540.github.io/statsguider/articles/en-branching.html>
+- English scenario tutorials: <https://dai540.github.io/statsguider/articles/en-examples.html>
+- English main functions: <https://dai540.github.io/statsguider/articles/en-functions.html>
+- Japanese start page: <https://dai540.github.io/statsguider/articles/ja-start.html>
+- Japanese branching guide: <https://dai540.github.io/statsguider/articles/ja-branching.html>
+- Japanese scenario tutorials: <https://dai540.github.io/statsguider/articles/ja-examples.html>
+- Japanese main functions: <https://dai540.github.io/statsguider/articles/ja-functions.html>

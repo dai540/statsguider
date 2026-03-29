@@ -5,63 +5,72 @@ template:
   bootswatch: flatly
 
 development:
-  mode: unreleased
+  mode: release
 
 home:
   title: statsguider
-  description: Simple statistical test selection from a data frame.
+  description: Guided statistical test selection from a data frame.
   sidebar:
     structure: []
 
 navbar:
   structure:
-    left: [intro, english, japanese, reference]
-    right: [search]
+    left: [intro, reference, articles]
+    right: [github, search]
   components:
     intro:
-      text: Home
+      text: Get Started
       href: index.html
-    english:
-      text: English
-      menu:
-        - text: Start here
-          href: articles/en-start.html
-        - text: Choose by branching
-          href: articles/en-branching.html
-        - text: Scenario tutorials
-          href: articles/en-examples.html
-        - text: Main functions
-          href: articles/en-functions.html
-    japanese:
-      text: 日本語
-      menu:
-        - text: はじめに
-          href: articles/ja-start.html
-        - text: 分岐で選ぶ
-          href: articles/ja-branching.html
-        - text: シナリオ別チュートリアル
-          href: articles/ja-examples.html
-        - text: 主な関数
-          href: articles/ja-functions.html
     reference:
       text: Reference
       href: reference/index.html
+    articles:
+      text: Articles
+      menu:
+        - text: Core
+        - text: Getting Started
+          href: articles/en-start.html
+        - text: Main Functions
+          href: articles/en-functions.html
+        - text: Branching Guide
+          href: articles/en-branching.html
+        - text: ---
+        - text: English Tutorials
+        - text: Scenario Tutorials
+          href: articles/en-examples.html
+        - text: ---
+        - text: Japanese Tutorials
+        - text: Start Page (JA)
+          href: articles/ja-start.html
+        - text: Main Functions (JA)
+          href: articles/ja-functions.html
+        - text: Branching Guide (JA)
+          href: articles/ja-branching.html
+        - text: Scenario Tutorials (JA)
+          href: articles/ja-examples.html
+    github:
+      icon: fa-github
+      href: https://github.com/dai540/statsguider
+      aria-label: GitHub repository
 
 articles:
-  - title: English
-    navbar: English
+  - title: Core
+    navbar: Core
     contents:
       - en-start
-      - en-branching
-      - en-examples
       - en-functions
-  - title: 日本語
-    navbar: 日本語
+      - en-branching
+  - title: English Tutorials
+    navbar: English Tutorials
+    contents:
+      - en-examples
+  - title: Japanese Tutorials
+    navbar: Japanese Tutorials
     contents:
       - ja-start
+      - ja-functions
       - ja-branching
       - ja-examples
-      - ja-functions
 
 reference:
   - title: Main functions

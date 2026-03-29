@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="statsguider">
-<meta name="description" content="Simple statistical test selection from a data frame.">
-<meta property="og:description" content="Simple statistical test selection from a data frame.">
+<meta name="description" content="Guided statistical test selection from a data frame.">
+<meta property="og:description" content="Guided statistical test selection from a data frame.">
 <meta property="og:image" content="https://dai540.github.io/statsguider/logo.svg">
 </head>
 <body>
@@ -28,7 +28,7 @@
 
     <a class="navbar-brand me-2" href="index.html">statsguider</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">1.0.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,28 +37,29 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="active nav-item"><a class="nav-link" href="index.html">Home</a></li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown-english" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">English</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-english">
-<li><a class="dropdown-item" href="articles/en-start.html">Start here</a></li>
-    <li><a class="dropdown-item" href="articles/en-branching.html">Choose by branching</a></li>
-    <li><a class="dropdown-item" href="articles/en-examples.html">Scenario tutorials</a></li>
-    <li><a class="dropdown-item" href="articles/en-functions.html">Main functions</a></li>
-  </ul>
-</li>
-<li class="nav-item dropdown">
-  <button class="nav-link dropdown-toggle" type="button" id="dropdown--" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">日本語</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown--">
-<li><a class="dropdown-item" href="articles/ja-start.html">はじめに</a></li>
-    <li><a class="dropdown-item" href="articles/ja-branching.html">分岐で選ぶ</a></li>
-    <li><a class="dropdown-item" href="articles/ja-examples.html">シナリオ別チュートリアル</a></li>
-    <li><a class="dropdown-item" href="articles/ja-functions.html">主な関数</a></li>
-  </ul>
-</li>
+<li class="active nav-item"><a class="nav-link" href="index.html">Get Started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><h6 class="dropdown-header" data-toc-skip>Core</h6></li>
+    <li><a class="dropdown-item" href="articles/en-start.html">Getting Started</a></li>
+    <li><a class="dropdown-item" href="articles/en-functions.html">Main Functions</a></li>
+    <li><a class="dropdown-item" href="articles/en-branching.html">Branching Guide</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>English Tutorials</h6></li>
+    <li><a class="dropdown-item" href="articles/en-examples.html">Scenario Tutorials</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Japanese Tutorials</h6></li>
+    <li><a class="dropdown-item" href="articles/ja-start.html">Start Page (JA)</a></li>
+    <li><a class="dropdown-item" href="articles/ja-functions.html">Main Functions (JA)</a></li>
+    <li><a class="dropdown-item" href="articles/ja-branching.html">Branching Guide (JA)</a></li>
+    <li><a class="dropdown-item" href="articles/ja-examples.html">Scenario Tutorials (JA)</a></li>
+  </ul>
+</li>
       </ul>
 <ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/dai540/statsguider" aria-label="GitHub repository"><span class="fa fa-github"></span></a></li>
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
@@ -71,33 +72,67 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.svg" class="logo" alt=""><h1 id="statsguider">statsguider<a class="anchor" aria-label="anchor" href="#statsguider"></a>
+<img src="logo.svg" class="logo" alt=""><h1 id="statsguider-">statsguider <a class="anchor" aria-label="anchor" href="#statsguider-"></a>
 </h1>
 </div>
-<p>Simple statistical test selection from a <code>data.frame</code>.</p>
-<p><code>statsguider</code> helps you choose a statistical method by branching on data properties, then run the recommended method.</p>
-<div class="section level2">
-<h2 id="website">Website<a class="anchor" aria-label="anchor" href="#website"></a>
-</h2>
+<p><a href="https://dai540.github.io/statsguider/"><img src="https://img.shields.io/badge/docs-pkgdown-315c86" alt="pkgdown"></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a></p>
+<p><code>statsguider</code> is an R package for simple, guided statistical test selection. It starts from a <code>data.frame</code>, asks for a small set of study-design choices, then recommends an appropriate method or stops when a simple test is not the right branch.</p>
+<p>The package is designed for researchers who want a narrow and practical workflow:</p>
 <ul>
-<li>GitHub Pages site: <a href="https://dai540.github.io/statsguider/">https://dai540.github.io/statsguider/</a>
-</li>
-<li>Site index HTML in the repository: <a href="https://github.com/dai540/statsguider/blob/main/docs/index.html" class="external-link">docs/index.html</a>
-</li>
+<li>choose the outcome column</li>
+<li>choose the group column</li>
+<li>declare whether the data are paired or repeated</li>
+<li>declare whether adjustment is needed</li>
+<li>run the recommended simple test when appropriate</li>
 </ul>
+<p><code>statsguider</code> is built around five main jobs:</p>
+<ul>
+<li>
+<code><a href="reference/select_test.html">select_test()</a></code> for the main one-shot interface</li>
+<li>
+<code><a href="reference/guided_test.html">guided_test()</a></code> for step-by-step branching</li>
+<li>
+<code><a href="reference/recommend_test.html">recommend_test()</a></code> for recommendation without execution</li>
+<li>
+<code><a href="reference/run_test.html">run_test()</a></code> for guarded execution of the selected method</li>
+<li>
+<code><a href="reference/check_design.html">check_design()</a></code> for stopping inappropriate simple analyses early</li>
+</ul>
+<p>The package is intentionally narrow in version 1.0.0. It focuses on single-outcome group comparison workflows and redirects users when the data belong in regression, survival analysis, agreement analysis, equivalence, or count-model branches.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>Install from GitHub:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu">pak</span><span class="op">(</span><span class="st">"dai540/statsguider"</span><span class="op">)</span></span></code></pre></div>
+<p>Or:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dai540/statsguider"</span><span class="op">)</span></span></code></pre></div>
+<p>Or install from a source tarball:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/statsguider_1.0.0.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span></span></code></pre></div>
+<p>Then load the package:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dai540.github.io/statsguider/">statsguider</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="install">Install<a class="anchor" aria-label="anchor" href="#install"></a>
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
-<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dai540/statsguider"</span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dai540.github.io/statsguider/">statsguider</a></span><span class="op">)</span></span></code></pre></div>
+<p>If you use <code>statsguider</code>, cite the package as:</p>
+<blockquote>
+<p>Dai (2026). <em>statsguider: Guided Statistical Test Selection from a Data Frame</em>. R package. <a href="https://dai540.github.io/statsguider/" class="uri">https://dai540.github.io/statsguider/</a></p>
+</blockquote>
+<p>You can also retrieve the citation from R:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"statsguider"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="fastest-way-to-use-it">Fastest way to use it<a class="anchor" aria-label="anchor" href="#fastest-way-to-use-it"></a>
 </h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<p>The simplest entry point is <code><a href="reference/select_test.html">select_test()</a></code>.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">wet_example</span>, <span class="va">visit</span> <span class="op">==</span> <span class="st">"week4"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="reference/select_test.html">select_test</a></span><span class="op">(</span></span>
@@ -111,45 +146,89 @@
 <span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="learn-by-scenarios">Learn by scenarios<a class="anchor" aria-label="anchor" href="#learn-by-scenarios"></a>
+<h2 id="core-workflow">Core workflow<a class="anchor" aria-label="anchor" href="#core-workflow"></a>
+</h2>
+<p><code>statsguider</code> does three things.</p>
+<ul>
+<li>classifies the data into a simple branch</li>
+<li>recommends a method with a short explanation</li>
+<li>runs the method only when the branch is appropriate</li>
+</ul>
+<p>In practice, the package is doing this:</p>
+<ol style="list-style-type: decimal">
+<li>inspect the outcome type</li>
+<li>inspect whether groups are independent, paired, or repeated</li>
+<li>check whether a simple test is appropriate</li>
+<li>recommend a test such as Welch t-test, paired t-test, Fisher exact test, or Friedman test</li>
+<li>redirect when the question needs a model rather than a simple test</li>
+</ol>
+</div>
+<div class="section level2">
+<h2 id="main-functions">Main functions<a class="anchor" aria-label="anchor" href="#main-functions"></a>
 </h2>
 <ul>
-<li>English
+<li><code><a href="reference/select_test.html">select_test()</a></code></li>
+<li><code><a href="reference/guided_test.html">guided_test()</a></code></li>
+<li><code><a href="reference/recommend_test.html">recommend_test()</a></code></li>
+<li><code><a href="reference/run_test.html">run_test()</a></code></li>
+<li><code><a href="reference/check_design.html">check_design()</a></code></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="tutorial-structure">Tutorial structure<a class="anchor" aria-label="anchor" href="#tutorial-structure"></a>
+</h2>
+<p>The website is organized around:</p>
 <ul>
-<li><a href="https://dai540.github.io/statsguider/articles/en-start.html">Start here</a></li>
-<li><a href="https://dai540.github.io/statsguider/articles/en-branching.html">Choose by branching</a></li>
-<li><a href="https://dai540.github.io/statsguider/articles/en-examples.html">Scenario tutorials</a></li>
-<li><a href="https://dai540.github.io/statsguider/articles/en-functions.html">Main functions</a></li>
+<li>
+<code>Get Started</code>
+<ul>
+<li>package overview</li>
+<li>branching logic</li>
+<li>main functions</li>
 </ul>
 </li>
-<li>日本語
+<li>
+<code>Articles</code>
 <ul>
-<li><a href="https://dai540.github.io/statsguider/articles/ja-start.html">はじめに</a></li>
-<li><a href="https://dai540.github.io/statsguider/articles/ja-branching.html">分岐で選ぶ</a></li>
-<li><a href="https://dai540.github.io/statsguider/articles/ja-examples.html">シナリオ別チュートリアル</a></li>
-<li><a href="https://dai540.github.io/statsguider/articles/ja-functions.html">主な関数</a></li>
+<li>English scenario tutorials</li>
+<li>Japanese scenario tutorials</li>
+<li>English and Japanese branching guides</li>
 </ul>
+</li>
+</ul>
+<p>Every scenario tutorial creates a small data table and applies <code><a href="reference/select_test.html">select_test()</a></code> or <code><a href="reference/run_test.html">run_test()</a></code> to it.</p>
+</div>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<ul>
+<li>Website: <a href="https://dai540.github.io/statsguider/" class="uri">https://dai540.github.io/statsguider/</a>
+</li>
+<li>GitHub Pages index: <a href="https://dai540.github.io/statsguider/index.html" class="uri">https://dai540.github.io/statsguider/index.html</a>
+</li>
+<li>Repository copy of the site index: <a href="https://github.com/dai540/statsguider/blob/main/docs/index.html" class="external-link uri">https://github.com/dai540/statsguider/blob/main/docs/index.html</a>
 </li>
 </ul>
 </div>
 <div class="section level2">
-<h2 id="what-the-tutorial-pages-do">What the tutorial pages do<a class="anchor" aria-label="anchor" href="#what-the-tutorial-pages-do"></a>
+<h2 id="language-specific-tutorials">Language-specific tutorials<a class="anchor" aria-label="anchor" href="#language-specific-tutorials"></a>
 </h2>
 <ul>
-<li>English
-<ul>
-<li>each tutorial creates a small data table</li>
-<li>each tutorial applies <code><a href="reference/select_test.html">select_test()</a></code> or <code><a href="reference/run_test.html">run_test()</a></code>
+<li>English start page: <a href="https://dai540.github.io/statsguider/articles/en-start.html" class="uri">https://dai540.github.io/statsguider/articles/en-start.html</a>
 </li>
-<li>each scenario shows how to set the branching arguments</li>
-</ul>
+<li>English branching guide: <a href="https://dai540.github.io/statsguider/articles/en-branching.html" class="uri">https://dai540.github.io/statsguider/articles/en-branching.html</a>
 </li>
-<li>日本語
-<ul>
-<li>各チュートリアルで小さなデータ表を自分で作ります</li>
-<li>そのデータ表に <code><a href="reference/select_test.html">select_test()</a></code> や <code><a href="reference/run_test.html">run_test()</a></code> を適用します</li>
-<li>分岐に必要な引数をどう設定するかも一緒に示します</li>
-</ul>
+<li>English scenario tutorials: <a href="https://dai540.github.io/statsguider/articles/en-examples.html" class="uri">https://dai540.github.io/statsguider/articles/en-examples.html</a>
+</li>
+<li>English main functions: <a href="https://dai540.github.io/statsguider/articles/en-functions.html" class="uri">https://dai540.github.io/statsguider/articles/en-functions.html</a>
+</li>
+<li>Japanese start page: <a href="https://dai540.github.io/statsguider/articles/ja-start.html" class="uri">https://dai540.github.io/statsguider/articles/ja-start.html</a>
+</li>
+<li>Japanese branching guide: <a href="https://dai540.github.io/statsguider/articles/ja-branching.html" class="uri">https://dai540.github.io/statsguider/articles/ja-branching.html</a>
+</li>
+<li>Japanese scenario tutorials: <a href="https://dai540.github.io/statsguider/articles/ja-examples.html" class="uri">https://dai540.github.io/statsguider/articles/ja-examples.html</a>
+</li>
+<li>Japanese main functions: <a href="https://dai540.github.io/statsguider/articles/ja-functions.html" class="uri">https://dai540.github.io/statsguider/articles/ja-functions.html</a>
 </li>
 </ul>
 </div>
