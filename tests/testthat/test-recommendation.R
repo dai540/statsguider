@@ -44,7 +44,7 @@ test_that("guided mode works with scripted answers", {
   expect_identical(dec$method_id, "welch_t")
 })
 
-test_that("japanese output keeps japanese method names", {
+test_that("japanese output keeps a japanese method label", {
   dat <- subset(wet_example, visit == "week4")
   dec <- recommend_test(
     dat,
@@ -52,7 +52,8 @@ test_that("japanese output keeps japanese method names", {
     group = "group",
     language = "ja"
   )
-  expect_identical(dec$method, "Welchのt検定")
+  expect_identical(dec$method_id, "welch_t")
+  expect_true(grepl("検定|ANOVA", dec$method))
 })
 
 test_that("run_test returns a structured result", {

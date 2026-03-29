@@ -12,7 +12,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(statsguider)
 ```
 
-このチュートリアルでは、小さなデータ表をいくつか自分で作り、それぞれに `statsguider` を適用します。
+このチュートリアルでは、小さなデータテーブルを作って `statsguider` を適用します。
 
 ## シナリオ1: 独立2群の連続値
 
@@ -50,7 +50,7 @@ run_test(
 )
 ```
 
-## シナリオ2: 対応ありの前後比較
+## シナリオ2: 対応のある前後比較
 
 ```{r}
 tbl_paired <- data.frame(
@@ -128,7 +128,7 @@ select_test(
 )
 ```
 
-## シナリオ5: 対応ありの二値データ
+## シナリオ5: 対応のある二値データ
 
 ```{r}
 tbl_paired_binary <- data.frame(
@@ -190,7 +190,7 @@ select_test(
 )
 ```
 
-## シナリオ7: 共変量調整が必要で別枝に進むケース
+## シナリオ7: 共変量調整が必要なので停止
 
 ```{r}
 tbl_adjust <- data.frame(
@@ -214,7 +214,7 @@ select_test(
 )
 ```
 
-## シナリオ8: カウントデータなので別枝に進むケース
+## シナリオ8: カウントアウトカムなので停止
 
 ```{r}
 tbl_count <- data.frame(
@@ -237,5 +237,3 @@ select_test(
   language = "ja"
 )
 ```
-
-このように、`statsguider` は「使うべき手法を出す」だけでなく、「単純検定では進まない方がよい」ケースも案内します。
