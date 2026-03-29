@@ -1,6 +1,7 @@
 # statsguider
 
 [![pkgdown](https://img.shields.io/badge/docs-pkgdown-315c86)](https://dai540.github.io/statsguider/)
+[![R-CMD-check](https://github.com/dai540/statsguider/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dai540/statsguider/actions/workflows/R-CMD-check.yaml)
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://dai540.github.io/statsguider/LICENSE)
 
@@ -146,6 +147,8 @@ to it.
 - GitHub Pages index: <https://dai540.github.io/statsguider/index.html>
 - Repository copy of the site index:
   <https://github.com/dai540/statsguider/blob/main/docs/index.html>
+- GitHub Actions for pkgdown:
+  <https://github.com/dai540/statsguider/actions/workflows/pkgdown.yaml>
 
 ## Language-specific tutorials
 
