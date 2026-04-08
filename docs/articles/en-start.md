@@ -112,7 +112,7 @@ select_test(
 #> statsguider result
 #> - Method: Welch t-test
 #> - Reason: The data look like two independent groups with a continuous outcome and acceptable normality.
-#> - Summary: Welch t-test was selected because the data looked like continuous outcome, 2 groups, paired = no, repeated = no.
+#> - Summary: Welch t-test was selected because the data looked like continuous outcome, 2 groups, paired = "no", repeated = "no".
 ```
 
 The only important change here is `run = "run"`.

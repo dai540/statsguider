@@ -1,78 +1,69 @@
 # 分岐で選ぶ
 
-このページでは、`statsguider`
-がどのような分岐で手法を選ぶかを大づかみに説明します。
+最初に考えるのは研究の問いです。
 
 ``` mermaid
 flowchart TD
-    A["Start with the research question"] --> B["Compare groups"]
-    A --> C["Measure association"]
-    A --> D["Estimate an adjusted effect or prediction"]
-    A --> E["Analyze time-to-event"]
-    A --> F["Measure agreement or reproducibility"]
-    A --> G["Show equivalence or non-inferiority"]
+    A["研究の問いから始める"] --> B["群間差をみたい"]
+    A --> C["関連をみたい"]
+    A --> D["調整付き効果や予測をみたい"]
+    A --> E["time-to-event を解析したい"]
+    A --> F["一致度や再現性をみたい"]
+    A --> G["等価性や非劣性を示したい"]
 ```
 
-version 1.0.0 で主に対応しているのは、群間差の分岐です。
+version 1.0.0 で主に対応するのは群間差の分岐です。
 
 ## 群間差の中での基本分岐
 
 ``` mermaid
 flowchart TD
-    A["Compare groups"] --> B{"Outcome type"}
-    B --> C["Continuous"]
-    B --> D["Binary or nominal"]
-    B --> E["Ordinal"]
-    B --> F["Count"]
+    A["群間差をみたい"] --> B{"アウトカム型"}
+    B --> C["連続"]
+    B --> D["二値・名義"]
+    B --> E["順序"]
+    B --> F["カウント"]
 
-    C --> C1{"How many groups?"}
-    C1 -->|2| C2{"Paired?"}
-    C1 -->|3 or more| C3{"Repeated?"}
-    C2 -->|No| C4{"Normality?"}
-    C2 -->|Yes| C5{"Normality of paired difference?"}
+    C --> C1{"群数"}
+    C1 -->|2群| C2{"対応あり?"}
+    C1 -->|3群以上| C3{"反復測定?"}
+    C2 -->|No| C4{"正規性は十分?"}
+    C2 -->|Yes| C5{"差分はほぼ正規?"}
     C4 -->|Yes| T1["Welch t-test"]
     C4 -->|No| T2["Mann-Whitney U test"]
     C5 -->|Yes| T3["Paired t-test"]
     C5 -->|No| T4["Wilcoxon signed-rank test"]
-    C3 -->|No| C6{"Normality?"}
-    C3 -->|Yes| C7{"Continuous repeated data?"}
-    C6 -->|Yes| T5["Welch ANOVA or ANOVA"]
+    C3 -->|No| C6{"正規性は十分?"}
+    C3 -->|Yes| C7{"連続の反復測定?"}
+    C6 -->|Yes| T5["Welch ANOVA"]
     C6 -->|No| T6["Kruskal-Wallis test"]
     C7 -->|Yes| T7["Repeated-measures ANOVA"]
     C7 -->|No| T8["Friedman test"]
 
-    D --> D1{"Paired?"}
-    D1 -->|No| D2{"Expected counts small?"}
+    D --> D1{"対応あり?"}
+    D1 -->|No| D2{"期待度数は小さい?"}
     D1 -->|Yes| T9["McNemar test"]
     D2 -->|Yes| T10["Fisher exact test"]
     D2 -->|No| T11["Chi-squared test"]
 
-    E --> E1{"Paired or repeated?"}
-    E1 -->|Independent 2 groups| T12["Mann-Whitney U test"]
-    E1 -->|Paired 2 groups| T13["Wilcoxon signed-rank test"]
-    E1 -->|Independent 3+ groups| T14["Kruskal-Wallis test"]
-    E1 -->|Repeated 3+ groups| T15["Friedman test"]
+    E --> E1{"対応・反復の有無"}
+    E1 -->|独立2群| T12["Mann-Whitney U test"]
+    E1 -->|対応2群| T13["Wilcoxon signed-rank test"]
+    E1 -->|独立3群以上| T14["Kruskal-Wallis test"]
+    E1 -->|反復3群以上| T15["Friedman test"]
 
-    F --> T16["Redirect to count regression"]
+    F --> T16["単純検定ではなく回帰へ"]
 ```
 
-## どんなときに止めるか
+## 実務上のルール
 
-`statsguider` は、無理に単純検定へ進めないようにしています。
+- 群間差だけを見たいなら、この分岐に従って
+  [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
+  を使います。
+- 共変量調整、生存時間、一致度、等価性・非劣性は単純検定ではなく別の解析分岐に進みます。
+- `statsguider` は不適切な分岐では無理に実行せず、止めて案内します。
 
-次のような場合は、推奨ではなく停止や別枝への案内を返します。
-
-- 共変量で調整したい
-- 生存時間を扱いたい
-- 一致度をみたい
-- 等価性や非劣性を示したい
-- カウントデータを単純検定だけで扱おうとしている
-
-## 実際の操作はもっとシンプル
-
-分岐図の全体を覚える必要はありません。
-
-実際には、次のように選択式の引数を入れるだけです。
+## もっともシンプルな例
 
 ``` r
 select_test(
@@ -82,9 +73,7 @@ select_test(
   outcome_type = "continuous",
   paired = "no",
   repeated = "no",
-  run = "recommend"
+  run = "recommend",
+  language = "ja"
 )
 ```
-
-必要な情報だけを入れれば、`statsguider`
-がその分岐に沿って手法を案内します。

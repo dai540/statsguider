@@ -1,3 +1,9 @@
 ^docs$
 ^pkgdown$
+^_pkgdown\.yml$
 ^README\.md$
+^NEWS\.md$
+^\.github$
+^artifacts$
+^.*\.tar\.gz$
+^.*\.Rcheck$

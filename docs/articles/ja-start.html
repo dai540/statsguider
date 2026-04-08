@@ -39,19 +39,20 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><h6 class="dropdown-header" data-toc-skip>Core</h6></li>
-    <li><a class="dropdown-item" href="../articles/en-start.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="../articles/en-functions.html">Main Functions</a></li>
-    <li><a class="dropdown-item" href="../articles/en-branching.html">Branching Guide</a></li>
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Core</h6></li>
+    <li><a class="dropdown-item" href="../articles/en-start.html">Start here</a></li>
+    <li><a class="dropdown-item" href="../articles/en-functions.html">Main functions</a></li>
+    <li><a class="dropdown-item" href="../articles/en-branching.html">Choose by branching</a></li>
     <li><hr class="dropdown-divider"></li>
-    <li><h6 class="dropdown-header" data-toc-skip>English Tutorials</h6></li>
-    <li><a class="dropdown-item" href="../articles/en-examples.html">Scenario Tutorials</a></li>
+    <li><h6 class="dropdown-header" data-toc-skip>English</h6></li>
+    <li><a class="dropdown-item" href="../articles/en-examples.html">Scenario tutorials</a></li>
     <li><hr class="dropdown-divider"></li>
-    <li><h6 class="dropdown-header" data-toc-skip>Japanese Tutorials</h6></li>
-    <li><a class="dropdown-item" href="../articles/ja-start.html">Start Page (JA)</a></li>
-    <li><a class="dropdown-item" href="../articles/ja-functions.html">Main Functions (JA)</a></li>
-    <li><a class="dropdown-item" href="../articles/ja-branching.html">Branching Guide (JA)</a></li>
-    <li><a class="dropdown-item" href="../articles/ja-examples.html">Scenario Tutorials (JA)</a></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Japanese</h6></li>
+    <li><a class="dropdown-item" href="../articles/ja-start.html">はじめに</a></li>
+    <li><a class="dropdown-item" href="../articles/ja-functions.html">主な関数</a></li>
+    <li><a class="dropdown-item" href="../articles/ja-branching.html">分岐で選ぶ</a></li>
+    <li><a class="dropdown-item" href="../articles/ja-examples.html">シナリオ別チュートリアル</a></li>
   </ul>
 </li>
       </ul>
@@ -75,53 +76,53 @@
       <img src="../logo.svg" class="logo" alt=""><h1>はじめに</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dai540/statsguider/blob/HEAD/vignettes/ja-start.Rmd" class="external-link"><code>vignettes/ja-start.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dai540/statsguider/blob/main/vignettes/ja-start.Rmd" class="external-link"><code>vignettes/ja-start.Rmd</code></a></small>
       <div class="d-none name"><code>ja-start.Rmd</code></div>
     </div>
 
     
     
 <p><code>statsguider</code>
-は、データの性質を順に選ぶだけで、使うべき統計手法を案内し、そのまま実行できるパッケージです。</p>
+は、データの性質を選ぶだけで使うべき統計手法を案内するパッケージです。</p>
 <p>基本の流れは 3 段階です。</p>
 <ol style="list-style-type: decimal">
-<li>データの性質を選ぶ</li>
+<li>データの性質を指定する</li>
 <li>推奨される手法を確認する</li>
 <li>必要ならそのまま実行する</li>
 </ol>
 <div class="section level2">
-<h2 id="まず使う関数">まず使う関数<a class="anchor" aria-label="anchor" href="#%E3%81%BE%E3%81%9A%E4%BD%BF%E3%81%86%E9%96%A2%E6%95%B0"></a>
+<h2 id="select_test-で使う主な引数">
+<code>select_test()</code> で使う主な引数<a class="anchor" aria-label="anchor" href="#select_test-%E3%81%A7%E4%BD%BF%E3%81%86%E4%B8%BB%E3%81%AA%E5%BC%95%E6%95%B0"></a>
 </h2>
-<p>最初に覚える関数は <code><a href="../reference/select_test.html">select_test()</a></code> です。</p>
-<p>最低限必要なのは次の列指定です。</p>
+<p>表の列を指定する引数:</p>
 <ul>
 <li>
-<code>data</code>: 解析する <code>data.frame</code>
+<code>data</code>: 解析に使う <code>data.frame</code>
 </li>
 <li>
-<code>outcome</code>: 結果の列</li>
+<code>outcome</code>: 結果変数の列名</li>
 <li>
-<code>group</code>: 群や条件の列</li>
+<code>group</code>: 群や条件を表す列名</li>
 <li>
-<code>id</code>: 対応ありや反復測定のときの個体 ID 列</li>
+<code>id</code>: 対応あり・反復測定で使う被験者 ID 列</li>
 </ul>
-<p>列指定以外は、基本的に選択式の引数です。</p>
+<p>選択式の引数:</p>
 <ul>
 <li>
 <code>goal</code>
 <ul>
 <li>
-<code>"difference"</code>: 群間差をみたい</li>
+<code>"difference"</code>: 群間差を見たい</li>
 <li>
-<code>"association"</code>: 関連をみたい</li>
+<code>"association"</code>: 関連を見たい</li>
 <li>
-<code>"adjusted_effect"</code>: 調整した効果をみたい</li>
+<code>"adjusted_effect"</code>: 調整付き効果を見たい</li>
 <li>
-<code>"time_to_event"</code>: 生存時間をみたい</li>
+<code>"time_to_event"</code>: 生存時間を扱いたい</li>
 <li>
-<code>"agreement"</code>: 一致度をみたい</li>
+<code>"agreement"</code>: 一致度を見たい</li>
 <li>
-<code>"equivalence"</code>: 等価性や非劣性をみたい</li>
+<code>"equivalence"</code>: 等価性・非劣性を見たい</li>
 </ul>
 </li>
 <li>
@@ -132,9 +133,9 @@
 <li>
 <code>"binary"</code>: 二値</li>
 <li>
-<code>"nominal"</code>: 名義カテゴリ</li>
+<code>"nominal"</code>: 名義尺度</li>
 <li>
-<code>"ordinal"</code>: 順序カテゴリ</li>
+<code>"ordinal"</code>: 順序尺度</li>
 <li>
 <code>"count"</code>: カウント</li>
 </ul>
@@ -143,7 +144,7 @@
 <code>paired</code>
 <ul>
 <li>
-<code>"yes"</code>: 同じ個体を 2 回比べる</li>
+<code>"yes"</code>: 同じ対象を2回測っている</li>
 <li>
 <code>"no"</code>: 独立した群を比べる</li>
 </ul>
@@ -152,7 +153,7 @@
 <code>repeated</code>
 <ul>
 <li>
-<code>"yes"</code>: 同じ個体を 3 回以上測る</li>
+<code>"yes"</code>: 同じ対象を3回以上測っている</li>
 <li>
 <code>"no"</code>: 反復測定ではない</li>
 </ul>
@@ -170,7 +171,7 @@
 <code>normality</code>
 <ul>
 <li>
-<code>"auto"</code>: 自動で参考判定する</li>
+<code>"auto"</code>: 自動判定</li>
 <li>
 <code>"yes"</code>: 正規性を仮定する</li>
 <li>
@@ -183,9 +184,9 @@
 <code>run</code>
 <ul>
 <li>
-<code>"recommend"</code>: 推奨手法だけを返す</li>
+<code>"recommend"</code>: 手法だけを返す</li>
 <li>
-<code>"run"</code>: 推奨手法をそのまま実行する</li>
+<code>"run"</code>: 手法を選んで実行する</li>
 </ul>
 </li>
 <li>
@@ -219,11 +220,10 @@
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: Welchのt検定</span></span>
 <span><span class="co">#&gt; - 代替手法: Mann-Whitney U検定</span></span>
-<span><span class="co">#&gt; - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。</span></span>
-<span><span class="co">#&gt; - 次の一歩: Welchのt検定に進みます。必要なら順位ベースの代替も検討してください。</span></span>
+<span><span class="co">#&gt; - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。</span></span>
+<span><span class="co">#&gt; - 次の一歩: Welchのt検定を使ってください。必要なら順位ベースの代替手法を使います。</span></span>
 <span><span class="co">#&gt; - 補足:</span></span>
 <span><span class="co">#&gt;   * 正規性を自動判定し、`yes` と分類しました。</span></span></code></pre></div>
-<p>この例では、独立 2 群の連続値なので、まず推奨手法が返ります。</p>
 </div>
 <div class="section level2">
 <h2 id="そのまま実行する">そのまま実行する<a class="anchor" aria-label="anchor" href="#%E3%81%9D%E3%81%AE%E3%81%BE%E3%81%BE%E5%AE%9F%E8%A1%8C%E3%81%99%E3%82%8B"></a>
@@ -241,12 +241,12 @@
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; statsguider の結果</span></span>
 <span><span class="co">#&gt; - 手法: Welchのt検定</span></span>
-<span><span class="co">#&gt; - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。</span></span>
-<span><span class="co">#&gt; - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判断されたためです。</span></span></code></pre></div>
-<p>解析まで進めたいときは <code>run = "run"</code> にします。</p>
+<span><span class="co">#&gt; - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。</span></span>
+<span><span class="co">#&gt; - 要約: Welchのt検定 を選んだ理由は、データが continuous 型、群数 2、paired = "no"、repeated = "no" だったためです。</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="質問に答えながら進める">質問に答えながら進める<a class="anchor" aria-label="anchor" href="#%E8%B3%AA%E5%95%8F%E3%81%AB%E7%AD%94%E3%81%88%E3%81%AA%E3%81%8C%E3%82%89%E9%80%B2%E3%82%81%E3%82%8B"></a>
+<h2 id="guided_test-で順番に選ぶ">
+<code>guided_test()</code> で順番に選ぶ<a class="anchor" aria-label="anchor" href="#guided_test-%E3%81%A7%E9%A0%86%E7%95%AA%E3%81%AB%E9%81%B8%E3%81%B6"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/guided_test.html">guided_test</a></span><span class="op">(</span></span>
@@ -268,22 +268,13 @@
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: Welchのt検定</span></span>
 <span><span class="co">#&gt; - 代替手法: Mann-Whitney U検定</span></span>
-<span><span class="co">#&gt; - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。</span></span>
-<span><span class="co">#&gt; - 次の一歩: Welchのt検定に進みます。必要なら順位ベースの代替も検討してください。</span></span>
+<span><span class="co">#&gt; - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。</span></span>
+<span><span class="co">#&gt; - 次の一歩: Welchのt検定を使ってください。必要なら順位ベースの代替手法を使います。</span></span>
 <span><span class="co">#&gt; - 補足:</span></span>
 <span><span class="co">#&gt;   * 正規性を自動判定し、`yes` と分類しました。</span></span></code></pre></div>
-<p><code><a href="../reference/guided_test.html">guided_test()</a></code>
-は、分岐を一つずつ確認したいときに向いています。</p>
-</div>
-<div class="section level2">
-<h2 id="次に読む記事">次に読む記事<a class="anchor" aria-label="anchor" href="#%E6%AC%A1%E3%81%AB%E8%AA%AD%E3%82%80%E8%A8%98%E4%BA%8B"></a>
-</h2>
-<ul>
-<li>
-<code><a href="../reference/select_test.html">select_test()</a></code> を中心に知りたいとき: 「主な関数」</li>
-<li>いろいろなデータ表で試したいとき: 「シナリオ別チュートリアル」</li>
-<li>分岐の考え方を見たいとき: 「分岐で選ぶ」</li>
-</ul>
+<p><code><a href="../reference/select_test.html">select_test()</a></code> は引数を直接指定したいときに向いています。
+<code><a href="../reference/guided_test.html">guided_test()</a></code>
+は質問に答えながら進みたいときに向いています。</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

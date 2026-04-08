@@ -46,52 +46,51 @@ choose_column <- function(prompt, data, answers = NULL, key = NULL, allow_null =
 #'   `run = "run"`.
 #' @export
 guided_test <- function(data, answers = NULL, run = "recommend", language = "en") {
-  language <- normalize_language(language)
-  run <- normalize_run_mode(run)
+  args <- normalize_analysis_args(language = language, run = run)
 
   if (!is.data.frame(data)) {
-    stop(sg_text(language, "data_must_be_df"), call. = FALSE)
+    stop(sg_text(args$language, "data_must_be_df"), call. = FALSE)
   }
 
   goal <- choose_value(
-    sg_text(language, "prompt_goal"),
+    sg_text(args$language, "prompt_goal"),
     c("difference", "association", "adjusted_effect", "time_to_event", "agreement", "equivalence"),
     answers = answers,
     key = "goal",
-    language = language
+    language = args$language
   )
-  outcome <- choose_column(sg_text(language, "prompt_outcome"), data, answers, "outcome", language = language)
-  group <- choose_column(sg_text(language, "prompt_group"), data, answers, "group", allow_null = TRUE, language = language)
-  paired <- choose_value(sg_text(language, "prompt_paired"), c("no", "yes"), answers, "paired", language = language)
-  repeated <- choose_value(sg_text(language, "prompt_repeated"), c("no", "yes"), answers, "repeated", language = language)
-  adjust <- choose_value(sg_text(language, "prompt_adjust"), c("no", "yes"), answers, "adjust", language = language)
+  outcome <- choose_column(sg_text(args$language, "prompt_outcome"), data, answers, "outcome", language = args$language)
+  group <- choose_column(sg_text(args$language, "prompt_group"), data, answers, "group", allow_null = TRUE, language = args$language)
+  paired <- choose_value(sg_text(args$language, "prompt_paired"), c("no", "yes"), answers, "paired", language = args$language)
+  repeated <- choose_value(sg_text(args$language, "prompt_repeated"), c("no", "yes"), answers, "repeated", language = args$language)
+  adjust <- choose_value(sg_text(args$language, "prompt_adjust"), c("no", "yes"), answers, "adjust", language = args$language)
 
   id <- NULL
   if (paired == "yes" || repeated == "yes") {
-    id <- choose_column(sg_text(language, "prompt_id"), data, answers, "id", language = language)
+    id <- choose_column(sg_text(args$language, "prompt_id"), data, answers, "id", language = args$language)
   }
 
   outcome_type_default <- guess_outcome_type(data[[outcome]])
   outcome_type <- choose_value(
-    sprintf(sg_text(language, "prompt_outcome_type"), outcome_type_default),
+    sprintf(sg_text(args$language, "prompt_outcome_type"), outcome_type_default),
     c(outcome_type_default, "continuous", "binary", "nominal", "ordinal", "count"),
     answers = answers,
     key = "outcome_type",
-    language = language
+    language = args$language
   )
 
   normality <- "auto"
   if (outcome_type == "continuous") {
     normality <- choose_value(
-      sg_text(language, "prompt_normality"),
+      sg_text(args$language, "prompt_normality"),
       c("auto", "yes", "no", "unknown"),
       answers = answers,
       key = "normality",
-      language = language
+      language = args$language
     )
   }
 
-  if (run == "run") {
+  if (args$run == "run") {
     return(run_test(
       data = data,
       outcome = outcome,
@@ -103,7 +102,7 @@ guided_test <- function(data, answers = NULL, run = "recommend", language = "en"
       adjust = adjust,
       outcome_type = outcome_type,
       normality = normality,
-      language = language
+      language = args$language
     ))
   }
 
@@ -118,6 +117,6 @@ guided_test <- function(data, answers = NULL, run = "recommend", language = "en"
     adjust = adjust,
     outcome_type = outcome_type,
     normality = normality,
-    language = language
+    language = args$language
   )
 }

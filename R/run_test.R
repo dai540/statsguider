@@ -19,26 +19,28 @@ run_test <- function(data,
                      outcome_type = NULL,
                      normality = "auto",
                      language = "en") {
-  language <- normalize_language(language)
-  goal <- normalize_goal(goal)
-  paired <- normalize_yes_no(paired, "paired")
-  repeated <- normalize_yes_no(repeated, "repeated")
-  adjust <- normalize_yes_no(adjust, "adjust")
-  outcome_type <- normalize_outcome_type(outcome_type)
-  normality <- normalize_normality(normality)
+  args <- normalize_analysis_args(
+    language = language,
+    goal = goal,
+    paired = paired,
+    repeated = repeated,
+    adjust = adjust,
+    outcome_type = outcome_type,
+    normality = normality
+  )
 
   decision <- recommend_test(
     data = data,
     outcome = outcome,
     group = group,
     id = id,
-    goal = goal,
-    paired = paired,
-    repeated = repeated,
-    adjust = adjust,
-    outcome_type = outcome_type,
-    normality = normality,
-    language = language
+    goal = args$goal,
+    paired = args$paired,
+    repeated = args$repeated,
+    adjust = args$adjust,
+    outcome_type = args$outcome_type,
+    normality = args$normality,
+    language = args$language
   )
 
   if (!decision$action %in% c("recommend", "recommend_with_warning")) {
@@ -72,7 +74,7 @@ run_test <- function(data,
   )
 
   summary_text <- sprintf(
-    sg_text(language, "run_summary"),
+    sg_text(args$language, "run_summary"),
     decision$method,
     decision$inputs$outcome_type,
     decision$inputs$group_count,

@@ -32,25 +32,27 @@ recommend_test <- function(data,
                            outcome_type = NULL,
                            normality = "auto",
                            language = "en") {
-  language <- normalize_language(language)
-  goal <- normalize_goal(goal)
-  paired <- normalize_yes_no(paired, "paired")
-  repeated <- normalize_yes_no(repeated, "repeated")
-  adjust <- normalize_yes_no(adjust, "adjust")
-  outcome_type <- normalize_outcome_type(outcome_type)
-  normality <- normalize_normality(normality)
+  args <- normalize_analysis_args(
+    language = language,
+    goal = goal,
+    paired = paired,
+    repeated = repeated,
+    adjust = adjust,
+    outcome_type = outcome_type,
+    normality = normality
+  )
 
   design <- check_design(
     data = data,
     outcome = outcome,
     group = group,
     id = id,
-    goal = goal,
-    paired = paired,
-    repeated = repeated,
-    adjust = adjust,
-    outcome_type = outcome_type,
-    language = language
+    goal = args$goal,
+    paired = args$paired,
+    repeated = args$repeated,
+    adjust = args$adjust,
+    outcome_type = args$outcome_type,
+    language = args$language
   )
 
   if (!design$ok) {
@@ -59,11 +61,11 @@ recommend_test <- function(data,
 
   inferred_type <- design$inputs$outcome_type
   notes <- design$warnings
-  actual_normality <- normality
+  actual_normality <- args$normality
 
-  if (identical(normality, "auto") && inferred_type == "continuous") {
+  if (identical(args$normality, "auto") && inferred_type == "continuous") {
     actual_normality <- normality_flag(data[[outcome]], if (!is.null(group)) data[[group]] else NULL)
-    notes <- c(notes, sg_text(language, "normality_note", actual_normality))
+    notes <- c(notes, sg_text(args$language, "normality_note", actual_normality))
   }
   if (identical(actual_normality, "auto")) {
     actual_normality <- "unknown"
@@ -105,16 +107,16 @@ recommend_test <- function(data,
         method = NA_character_,
         alternative_method_id = NA_character_,
         alternative_method = NA_character_,
-        title = sg_text(language, "no_rule_title"),
-        reason = sg_text(language, "no_rule_reason"),
-        next_step = sg_text(language, "no_rule_next"),
+        title = sg_text(args$language, "no_rule_title"),
+        reason = sg_text(args$language, "no_rule_reason"),
+        next_step = sg_text(args$language, "no_rule_next"),
         notes = notes,
-        language = language
+        language = args$language
       ),
       class = "statsguider_decision"
     ))
   }
 
   rule <- rules[which(matched)[1], , drop = FALSE]
-  make_decision(inputs, rule[1, ], methods, notes, language = language)
+  make_decision(inputs, rule[1, ], methods, notes, language = args$language)
 }

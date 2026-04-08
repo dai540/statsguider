@@ -5,58 +5,46 @@
 [![License:
 MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://dai540.github.io/statsguider/LICENSE)
 
-`statsguider` is an R package for simple, guided statistical test
-selection. It starts from a `data.frame`, asks for a small set of
-study-design choices, then recommends an appropriate method or stops
-when a simple test is not the right branch.
+`statsguider` is an R package for guided statistical test selection from
+a `data.frame`. It focuses on five jobs:
 
-The package is designed for researchers who want a narrow and practical
-workflow:
+- classify a simple group-comparison design
+- validate whether a simple test is appropriate
+- recommend a test from a small set of design choices
+- run supported base-R tests
+- redirect to model-based workflows when a simple test is the wrong
+  branch
 
-- choose the outcome column
-- choose the group column
-- declare whether the data are paired or repeated
-- declare whether adjustment is needed
-- run the recommended simple test when appropriate
+<https://dai540.github.io/statsguider/>
 
-`statsguider` is built around five main jobs:
+The input contract is intentionally simple:
 
-- [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
-  for the main one-shot interface
-- [`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
-  for step-by-step branching
-- [`recommend_test()`](https://dai540.github.io/statsguider/reference/recommend_test.md)
-  for recommendation without execution
-- [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
-  for guarded execution of the selected method
-- [`check_design()`](https://dai540.github.io/statsguider/reference/check_design.md)
-  for stopping inappropriate simple analyses early
+- `data`: the analysis table
+- `outcome`: the outcome column
+- `group`: the group or condition column when needed
+- `id`: the subject identifier for paired or repeated designs
+- choice-style arguments: `goal`, `outcome_type`, `paired`, `repeated`,
+  `adjust`, `normality`, `run`, and `language`
 
-The package is intentionally narrow in version 1.0.0. It focuses on
-single-outcome group comparison workflows and redirects users when the
+Version 1.0.0 is intentionally narrow. The package is centered on simple
+single-outcome group comparison and explicitly redirects users when the
 data belong in regression, survival analysis, agreement analysis,
-equivalence, or count-model branches.
+equivalence, or count-model workflows.
 
 ## Installation
 
-Install from GitHub:
+Install from GitHub with `pak`:
 
 ``` r
 install.packages("pak")
 pak::pak("dai540/statsguider")
 ```
 
-Or:
+or `remotes`:
 
 ``` r
 install.packages("remotes")
 remotes::install_github("dai540/statsguider")
-```
-
-Or install from a source tarball:
-
-``` r
-install.packages("path/to/statsguider_1.0.0.tar.gz", repos = NULL, type = "source")
 ```
 
 Then load the package:
@@ -64,6 +52,104 @@ Then load the package:
 ``` r
 library(statsguider)
 ```
+
+## Minimal Example
+
+[`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
+is the main wrapper:
+
+``` r
+dat <- subset(statsguider::wet_example, visit == "week4")
+
+result <- statsguider::select_test(
+  data = dat,
+  outcome = "biomarker",
+  group = "group",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  run = "recommend",
+  language = "en"
+)
+
+result
+```
+
+To run the supported test immediately:
+
+``` r
+statsguider::select_test(
+  data = dat,
+  outcome = "biomarker",
+  group = "group",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  run = "run",
+  language = "en"
+)
+```
+
+## Main Functions
+
+- [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
+- [`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
+- [`recommend_test()`](https://dai540.github.io/statsguider/reference/recommend_test.md)
+- [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
+- [`check_design()`](https://dai540.github.io/statsguider/reference/check_design.md)
+
+[`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
+and
+[`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
+return either a `statsguider_decision` object or a `statsguider_result`
+object, depending on whether the user asks for recommendation only or
+full execution.
+
+## Supported Simple Testing Branches
+
+### Continuous outcomes
+
+- independent 2 groups: Welch t-test or Mann-Whitney U test
+- paired 2 groups: paired t-test or Wilcoxon signed-rank test
+- independent 3+ groups: Welch ANOVA or Kruskal-Wallis test
+- repeated 3+ groups: repeated-measures ANOVA or Friedman test
+
+### Categorical and ordinal outcomes
+
+- independent categorical comparison: chi-squared test or Fisher exact
+  test
+- paired binary comparison: McNemar test
+- ordinal comparison: Mann-Whitney U, Wilcoxon signed-rank,
+  Kruskal-Wallis, or Friedman test
+
+### Redirected branches
+
+- adjusted analyses
+- association questions
+- time-to-event outcomes
+- agreement and reproducibility
+- equivalence and non-inferiority
+- count outcomes
+
+## Built-in Example Data
+
+- `wet_example`
+
+`wet_example` is a small wet-lab style dataset with continuous, binary,
+and ordinal outcomes across treatment groups and visits.
+
+## Tutorials
+
+The website is organized around:
+
+- core introductions: start page, main functions, branching guide
+- English scenario tutorials
+- Japanese tutorials
+
+## Documentation
+
+- Website: <https://dai540.github.io/statsguider/>
+- GitHub repository: <https://github.com/dai540/statsguider>
 
 ## Citation
 
@@ -78,100 +164,9 @@ You can also retrieve the citation from R:
 citation("statsguider")
 ```
 
-## Fastest way to use it
-
-The simplest entry point is
-[`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md).
-
-``` r
-dat <- subset(wet_example, visit == "week4")
-
-select_test(
-  data = dat,
-  outcome = "biomarker",
-  group = "group",
-  outcome_type = "continuous",
-  paired = "no",
-  repeated = "no",
-  run = "run"
-)
-```
-
-## Core workflow
-
-`statsguider` does three things.
-
-- classifies the data into a simple branch
-- recommends a method with a short explanation
-- runs the method only when the branch is appropriate
-
-In practice, the package is doing this:
-
-1.  inspect the outcome type
-2.  inspect whether groups are independent, paired, or repeated
-3.  check whether a simple test is appropriate
-4.  recommend a test such as Welch t-test, paired t-test, Fisher exact
-    test, or Friedman test
-5.  redirect when the question needs a model rather than a simple test
-
-## Main functions
-
-- [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
-- [`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
-- [`recommend_test()`](https://dai540.github.io/statsguider/reference/recommend_test.md)
-- [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
-- [`check_design()`](https://dai540.github.io/statsguider/reference/check_design.md)
-
-## Tutorial structure
-
-The website is organized around:
-
-- `Get Started`
-  - package overview
-  - branching logic
-  - main functions
-- `Articles`
-  - English scenario tutorials
-  - Japanese scenario tutorials
-  - English and Japanese branching guides
-
-Every scenario tutorial creates a small data table and applies
-[`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
-or
-[`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
-to it.
-
-## Documentation
-
-- Website: <https://dai540.github.io/statsguider/>
-- GitHub Pages index: <https://dai540.github.io/statsguider/index.html>
-- Repository copy of the site index:
-  <https://github.com/dai540/statsguider/blob/main/docs/index.html>
-- GitHub Actions for pkgdown:
-  <https://github.com/dai540/statsguider/actions/workflows/pkgdown.yaml>
-
-## Language-specific tutorials
-
-- English start page:
-  <https://dai540.github.io/statsguider/articles/en-start.html>
-- English branching guide:
-  <https://dai540.github.io/statsguider/articles/en-branching.html>
-- English scenario tutorials:
-  <https://dai540.github.io/statsguider/articles/en-examples.html>
-- English main functions:
-  <https://dai540.github.io/statsguider/articles/en-functions.html>
-- Japanese start page:
-  <https://dai540.github.io/statsguider/articles/ja-start.html>
-- Japanese branching guide:
-  <https://dai540.github.io/statsguider/articles/ja-branching.html>
-- Japanese scenario tutorials:
-  <https://dai540.github.io/statsguider/articles/ja-examples.html>
-- Japanese main functions:
-  <https://dai540.github.io/statsguider/articles/ja-functions.html>
-
 # Package index
 
-## Main functions
+## Main workflows
 
 - [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
   : Select and Optionally Run a Statistical Test
@@ -191,7 +186,7 @@ to it.
 
 # Articles
 
-### Core
+### Core tutorials
 
 - [Start
   here](https://dai540.github.io/statsguider/articles/en-start.md):
@@ -200,12 +195,12 @@ to it.
 - [Choose by
   branching](https://dai540.github.io/statsguider/articles/en-branching.md):
 
-### English Tutorials
+### English tutorials
 
 - [Scenario
   tutorials](https://dai540.github.io/statsguider/articles/en-examples.md):
 
-### Japanese Tutorials
+### Japanese tutorials
 
 - [はじめに](https://dai540.github.io/statsguider/articles/ja-start.md):
 - [主な関数](https://dai540.github.io/statsguider/articles/ja-functions.md):

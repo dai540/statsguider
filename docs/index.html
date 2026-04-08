@@ -16,8 +16,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="statsguider">
-<meta name="description" content="Guided statistical test selection from a data frame.">
-<meta property="og:description" content="Guided statistical test selection from a data frame.">
+<meta name="description" content="Guided statistical test selection from a data frame, with simple branching, guarded execution, and bilingual tutorials.">
+<meta property="og:description" content="Guided statistical test selection from a data frame, with simple branching, guarded execution, and bilingual tutorials.">
 <meta property="og:image" content="https://dai540.github.io/statsguider/logo.svg">
 </head>
 <body>
@@ -42,19 +42,20 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><h6 class="dropdown-header" data-toc-skip>Core</h6></li>
-    <li><a class="dropdown-item" href="articles/en-start.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="articles/en-functions.html">Main Functions</a></li>
-    <li><a class="dropdown-item" href="articles/en-branching.html">Branching Guide</a></li>
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Core</h6></li>
+    <li><a class="dropdown-item" href="articles/en-start.html">Start here</a></li>
+    <li><a class="dropdown-item" href="articles/en-functions.html">Main functions</a></li>
+    <li><a class="dropdown-item" href="articles/en-branching.html">Choose by branching</a></li>
     <li><hr class="dropdown-divider"></li>
-    <li><h6 class="dropdown-header" data-toc-skip>English Tutorials</h6></li>
-    <li><a class="dropdown-item" href="articles/en-examples.html">Scenario Tutorials</a></li>
+    <li><h6 class="dropdown-header" data-toc-skip>English</h6></li>
+    <li><a class="dropdown-item" href="articles/en-examples.html">Scenario tutorials</a></li>
     <li><hr class="dropdown-divider"></li>
-    <li><h6 class="dropdown-header" data-toc-skip>Japanese Tutorials</h6></li>
-    <li><a class="dropdown-item" href="articles/ja-start.html">Start Page (JA)</a></li>
-    <li><a class="dropdown-item" href="articles/ja-functions.html">Main Functions (JA)</a></li>
-    <li><a class="dropdown-item" href="articles/ja-branching.html">Branching Guide (JA)</a></li>
-    <li><a class="dropdown-item" href="articles/ja-examples.html">Scenario Tutorials (JA)</a></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Japanese</h6></li>
+    <li><a class="dropdown-item" href="articles/ja-start.html">はじめに</a></li>
+    <li><a class="dropdown-item" href="articles/ja-functions.html">主な関数</a></li>
+    <li><a class="dropdown-item" href="articles/ja-branching.html">分岐で選ぶ</a></li>
+    <li><a class="dropdown-item" href="articles/ja-examples.html">シナリオ別チュートリアル</a></li>
   </ul>
 </li>
       </ul>
@@ -76,46 +77,150 @@
 </h1>
 </div>
 <p><a href="https://dai540.github.io/statsguider/"><img src="https://img.shields.io/badge/docs-pkgdown-315c86" alt="pkgdown"></a> <a href="https://github.com/dai540/statsguider/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/dai540/statsguider/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a> <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License: MIT"></a></p>
-<p><code>statsguider</code> is an R package for simple, guided statistical test selection. It starts from a <code>data.frame</code>, asks for a small set of study-design choices, then recommends an appropriate method or stops when a simple test is not the right branch.</p>
-<p>The package is designed for researchers who want a narrow and practical workflow:</p>
+<p><code>statsguider</code> is an R package for guided statistical test selection from a <code>data.frame</code>. It focuses on five jobs:</p>
 <ul>
-<li>choose the outcome column</li>
-<li>choose the group column</li>
-<li>declare whether the data are paired or repeated</li>
-<li>declare whether adjustment is needed</li>
-<li>run the recommended simple test when appropriate</li>
+<li>classify a simple group-comparison design</li>
+<li>validate whether a simple test is appropriate</li>
+<li>recommend a test from a small set of design choices</li>
+<li>run supported base-R tests</li>
+<li>redirect to model-based workflows when a simple test is the wrong branch</li>
 </ul>
-<p><code>statsguider</code> is built around five main jobs:</p>
+<p><a href="https://dai540.github.io/statsguider/" class="uri">https://dai540.github.io/statsguider/</a></p>
+<p>The input contract is intentionally simple:</p>
 <ul>
 <li>
-<code><a href="reference/select_test.html">select_test()</a></code> for the main one-shot interface</li>
+<code>data</code>: the analysis table</li>
 <li>
-<code><a href="reference/guided_test.html">guided_test()</a></code> for step-by-step branching</li>
+<code>outcome</code>: the outcome column</li>
 <li>
-<code><a href="reference/recommend_test.html">recommend_test()</a></code> for recommendation without execution</li>
+<code>group</code>: the group or condition column when needed</li>
 <li>
-<code><a href="reference/run_test.html">run_test()</a></code> for guarded execution of the selected method</li>
-<li>
-<code><a href="reference/check_design.html">check_design()</a></code> for stopping inappropriate simple analyses early</li>
+<code>id</code>: the subject identifier for paired or repeated designs</li>
+<li>choice-style arguments: <code>goal</code>, <code>outcome_type</code>, <code>paired</code>, <code>repeated</code>, <code>adjust</code>, <code>normality</code>, <code>run</code>, and <code>language</code>
+</li>
 </ul>
-<p>The package is intentionally narrow in version 1.0.0. It focuses on single-outcome group comparison workflows and redirects users when the data belong in regression, survival analysis, agreement analysis, equivalence, or count-model branches.</p>
+<p>Version 1.0.0 is intentionally narrow. The package is centered on simple single-outcome group comparison and explicitly redirects users when the data belong in regression, survival analysis, agreement analysis, equivalence, or count-model workflows.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>Install from GitHub:</p>
+<p>Install from GitHub with <code>pak</code>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pak"</span><span class="op">)</span></span>
 <span><span class="fu">pak</span><span class="fu">::</span><span class="fu">pak</span><span class="op">(</span><span class="st">"dai540/statsguider"</span><span class="op">)</span></span></code></pre></div>
-<p>Or:</p>
+<p>or <code>remotes</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"dai540/statsguider"</span><span class="op">)</span></span></code></pre></div>
-<p>Or install from a source tarball:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"path/to/statsguider_1.0.0.tar.gz"</span>, repos <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"source"</span><span class="op">)</span></span></code></pre></div>
 <p>Then load the package:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dai540.github.io/statsguider/">statsguider</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="minimal-example">Minimal Example<a class="anchor" aria-label="anchor" href="#minimal-example"></a>
+</h2>
+<p><code><a href="reference/select_test.html">select_test()</a></code> is the main wrapper:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="fu">statsguider</span><span class="fu">::</span><span class="va"><a href="reference/wet_example.html">wet_example</a></span>, <span class="va">visit</span> <span class="op">==</span> <span class="st">"week4"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">statsguider</span><span class="fu">::</span><span class="fu"><a href="reference/select_test.html">select_test</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">dat</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"biomarker"</span>,</span>
+<span>  group <span class="op">=</span> <span class="st">"group"</span>,</span>
+<span>  outcome_type <span class="op">=</span> <span class="st">"continuous"</span>,</span>
+<span>  paired <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  repeated <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  run <span class="op">=</span> <span class="st">"recommend"</span>,</span>
+<span>  language <span class="op">=</span> <span class="st">"en"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">result</span></span></code></pre></div>
+<p>To run the supported test immediately:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">statsguider</span><span class="fu">::</span><span class="fu"><a href="reference/select_test.html">select_test</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">dat</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"biomarker"</span>,</span>
+<span>  group <span class="op">=</span> <span class="st">"group"</span>,</span>
+<span>  outcome_type <span class="op">=</span> <span class="st">"continuous"</span>,</span>
+<span>  paired <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  repeated <span class="op">=</span> <span class="st">"no"</span>,</span>
+<span>  run <span class="op">=</span> <span class="st">"run"</span>,</span>
+<span>  language <span class="op">=</span> <span class="st">"en"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="main-functions">Main Functions<a class="anchor" aria-label="anchor" href="#main-functions"></a>
+</h2>
+<ul>
+<li><code><a href="reference/select_test.html">select_test()</a></code></li>
+<li><code><a href="reference/guided_test.html">guided_test()</a></code></li>
+<li><code><a href="reference/recommend_test.html">recommend_test()</a></code></li>
+<li><code><a href="reference/run_test.html">run_test()</a></code></li>
+<li><code><a href="reference/check_design.html">check_design()</a></code></li>
+</ul>
+<p><code><a href="reference/select_test.html">select_test()</a></code> and <code><a href="reference/guided_test.html">guided_test()</a></code> return either a <code>statsguider_decision</code> object or a <code>statsguider_result</code> object, depending on whether the user asks for recommendation only or full execution.</p>
+</div>
+<div class="section level2">
+<h2 id="supported-simple-testing-branches">Supported Simple Testing Branches<a class="anchor" aria-label="anchor" href="#supported-simple-testing-branches"></a>
+</h2>
+<div class="section level3">
+<h3 id="continuous-outcomes">Continuous outcomes<a class="anchor" aria-label="anchor" href="#continuous-outcomes"></a>
+</h3>
+<ul>
+<li>independent 2 groups: Welch t-test or Mann-Whitney U test</li>
+<li>paired 2 groups: paired t-test or Wilcoxon signed-rank test</li>
+<li>independent 3+ groups: Welch ANOVA or Kruskal-Wallis test</li>
+<li>repeated 3+ groups: repeated-measures ANOVA or Friedman test</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="categorical-and-ordinal-outcomes">Categorical and ordinal outcomes<a class="anchor" aria-label="anchor" href="#categorical-and-ordinal-outcomes"></a>
+</h3>
+<ul>
+<li>independent categorical comparison: chi-squared test or Fisher exact test</li>
+<li>paired binary comparison: McNemar test</li>
+<li>ordinal comparison: Mann-Whitney U, Wilcoxon signed-rank, Kruskal-Wallis, or Friedman test</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="redirected-branches">Redirected branches<a class="anchor" aria-label="anchor" href="#redirected-branches"></a>
+</h3>
+<ul>
+<li>adjusted analyses</li>
+<li>association questions</li>
+<li>time-to-event outcomes</li>
+<li>agreement and reproducibility</li>
+<li>equivalence and non-inferiority</li>
+<li>count outcomes</li>
+</ul>
+</div>
+</div>
+<div class="section level2">
+<h2 id="built-in-example-data">Built-in Example Data<a class="anchor" aria-label="anchor" href="#built-in-example-data"></a>
+</h2>
+<ul>
+<li><code>wet_example</code></li>
+</ul>
+<p><code>wet_example</code> is a small wet-lab style dataset with continuous, binary, and ordinal outcomes across treatment groups and visits.</p>
+</div>
+<div class="section level2">
+<h2 id="tutorials">Tutorials<a class="anchor" aria-label="anchor" href="#tutorials"></a>
+</h2>
+<p>The website is organized around:</p>
+<ul>
+<li>core introductions: start page, main functions, branching guide</li>
+<li>English scenario tutorials</li>
+<li>Japanese tutorials</li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
+</h2>
+<ul>
+<li>Website: <a href="https://dai540.github.io/statsguider/" class="uri">https://dai540.github.io/statsguider/</a>
+</li>
+<li>GitHub repository: <a href="https://github.com/dai540/statsguider" class="external-link uri">https://github.com/dai540/statsguider</a>
+</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -125,117 +230,45 @@
 <p>Dai (2026). <em>statsguider: Guided Statistical Test Selection from a Data Frame</em>. R package. <a href="https://dai540.github.io/statsguider/" class="uri">https://dai540.github.io/statsguider/</a></p>
 </blockquote>
 <p>You can also retrieve the citation from R:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"statsguider"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="fastest-way-to-use-it">Fastest way to use it<a class="anchor" aria-label="anchor" href="#fastest-way-to-use-it"></a>
-</h2>
-<p>The simplest entry point is <code><a href="reference/select_test.html">select_test()</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">wet_example</span>, <span class="va">visit</span> <span class="op">==</span> <span class="st">"week4"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="reference/select_test.html">select_test</a></span><span class="op">(</span></span>
-<span>  data <span class="op">=</span> <span class="va">dat</span>,</span>
-<span>  outcome <span class="op">=</span> <span class="st">"biomarker"</span>,</span>
-<span>  group <span class="op">=</span> <span class="st">"group"</span>,</span>
-<span>  outcome_type <span class="op">=</span> <span class="st">"continuous"</span>,</span>
-<span>  paired <span class="op">=</span> <span class="st">"no"</span>,</span>
-<span>  repeated <span class="op">=</span> <span class="st">"no"</span>,</span>
-<span>  run <span class="op">=</span> <span class="st">"run"</span></span>
-<span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="core-workflow">Core workflow<a class="anchor" aria-label="anchor" href="#core-workflow"></a>
-</h2>
-<p><code>statsguider</code> does three things.</p>
-<ul>
-<li>classifies the data into a simple branch</li>
-<li>recommends a method with a short explanation</li>
-<li>runs the method only when the branch is appropriate</li>
-</ul>
-<p>In practice, the package is doing this:</p>
-<ol style="list-style-type: decimal">
-<li>inspect the outcome type</li>
-<li>inspect whether groups are independent, paired, or repeated</li>
-<li>check whether a simple test is appropriate</li>
-<li>recommend a test such as Welch t-test, paired t-test, Fisher exact test, or Friedman test</li>
-<li>redirect when the question needs a model rather than a simple test</li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="main-functions">Main functions<a class="anchor" aria-label="anchor" href="#main-functions"></a>
-</h2>
-<ul>
-<li><code><a href="reference/select_test.html">select_test()</a></code></li>
-<li><code><a href="reference/guided_test.html">guided_test()</a></code></li>
-<li><code><a href="reference/recommend_test.html">recommend_test()</a></code></li>
-<li><code><a href="reference/run_test.html">run_test()</a></code></li>
-<li><code><a href="reference/check_design.html">check_design()</a></code></li>
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/dai540/statsguider" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/dai540/statsguider/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="tutorial-structure">Tutorial structure<a class="anchor" aria-label="anchor" href="#tutorial-structure"></a>
-</h2>
-<p>The website is organized around:</p>
-<ul>
+
+<div class="license">
+<h2 data-toc-skip>License</h2>
+<ul class="list-unstyled">
 <li>
-<code>Get Started</code>
-<ul>
-<li>package overview</li>
-<li>branching logic</li>
-<li>main functions</li>
-</ul>
-</li>
-<li>
-<code>Articles</code>
-<ul>
-<li>English scenario tutorials</li>
-<li>Japanese scenario tutorials</li>
-<li>English and Japanese branching guides</li>
-</ul>
-</li>
-</ul>
-<p>Every scenario tutorial creates a small data table and applies <code><a href="reference/select_test.html">select_test()</a></code> or <code><a href="reference/run_test.html">run_test()</a></code> to it.</p>
-</div>
-<div class="section level2">
-<h2 id="documentation">Documentation<a class="anchor" aria-label="anchor" href="#documentation"></a>
-</h2>
-<ul>
-<li>Website: <a href="https://dai540.github.io/statsguider/" class="uri">https://dai540.github.io/statsguider/</a>
-</li>
-<li>GitHub Pages index: <a href="https://dai540.github.io/statsguider/index.html" class="uri">https://dai540.github.io/statsguider/index.html</a>
-</li>
-<li>Repository copy of the site index: <a href="https://github.com/dai540/statsguider/blob/main/docs/index.html" class="external-link uri">https://github.com/dai540/statsguider/blob/main/docs/index.html</a>
-</li>
-<li>GitHub Actions for pkgdown: <a href="https://github.com/dai540/statsguider/actions/workflows/pkgdown.yaml" class="external-link uri">https://github.com/dai540/statsguider/actions/workflows/pkgdown.yaml</a>
+<a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="language-specific-tutorials">Language-specific tutorials<a class="anchor" aria-label="anchor" href="#language-specific-tutorials"></a>
-</h2>
-<ul>
-<li>English start page: <a href="https://dai540.github.io/statsguider/articles/en-start.html" class="uri">https://dai540.github.io/statsguider/articles/en-start.html</a>
-</li>
-<li>English branching guide: <a href="https://dai540.github.io/statsguider/articles/en-branching.html" class="uri">https://dai540.github.io/statsguider/articles/en-branching.html</a>
-</li>
-<li>English scenario tutorials: <a href="https://dai540.github.io/statsguider/articles/en-examples.html" class="uri">https://dai540.github.io/statsguider/articles/en-examples.html</a>
-</li>
-<li>English main functions: <a href="https://dai540.github.io/statsguider/articles/en-functions.html" class="uri">https://dai540.github.io/statsguider/articles/en-functions.html</a>
-</li>
-<li>Japanese start page: <a href="https://dai540.github.io/statsguider/articles/ja-start.html" class="uri">https://dai540.github.io/statsguider/articles/ja-start.html</a>
-</li>
-<li>Japanese branching guide: <a href="https://dai540.github.io/statsguider/articles/ja-branching.html" class="uri">https://dai540.github.io/statsguider/articles/ja-branching.html</a>
-</li>
-<li>Japanese scenario tutorials: <a href="https://dai540.github.io/statsguider/articles/ja-examples.html" class="uri">https://dai540.github.io/statsguider/articles/ja-examples.html</a>
-</li>
-<li>Japanese main functions: <a href="https://dai540.github.io/statsguider/articles/ja-functions.html" class="uri">https://dai540.github.io/statsguider/articles/ja-functions.html</a>
-</li>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing statsguider</a></li>
 </ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Dai Dai <br><small class="roles"> Author, maintainer </small>   </li>
+</ul>
 </div>
-  </main><aside class="col-md-3"></aside>
+
+
+
+  </aside>
 </div>
 
 

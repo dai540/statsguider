@@ -1,13 +1,18 @@
+package_csv <- function(..., encoding = NULL) {
+  path <- system.file(..., package = "statsguider", mustWork = TRUE)
+  args <- list(path, stringsAsFactors = FALSE)
+  if (!is.null(encoding)) {
+    args$encoding <- encoding
+  }
+  do.call(utils::read.csv, args)
+}
+
 statsguider_rules <- local({
   cache <- NULL
 
   function() {
     if (is.null(cache)) {
-      path <- system.file("rules", "decision_rules.csv", package = "statsguider")
-      if (path == "") {
-        path <- file.path(getwd(), "inst", "rules", "decision_rules.csv")
-      }
-      cache <<- utils::read.csv(path, stringsAsFactors = FALSE)
+      cache <<- package_csv("rules", "decision_rules.csv")
     }
     cache
   }
@@ -18,11 +23,7 @@ statsguider_methods <- local({
 
   function() {
     if (is.null(cache)) {
-      path <- system.file("rules", "method_registry.csv", package = "statsguider")
-      if (path == "") {
-        path <- file.path(getwd(), "inst", "rules", "method_registry.csv")
-      }
-      cache <<- utils::read.csv(path, stringsAsFactors = FALSE)
+      cache <<- package_csv("rules", "method_registry.csv")
     }
     cache
   }
@@ -33,11 +34,7 @@ statsguider_messages <- local({
 
   function() {
     if (is.null(cache)) {
-      path <- system.file("extdata", "messages.csv", package = "statsguider")
-      if (path == "") {
-        path <- file.path(getwd(), "inst", "extdata", "messages.csv")
-      }
-      cache <<- utils::read.csv(path, stringsAsFactors = FALSE, encoding = "UTF-8")
+      cache <<- package_csv("extdata", "messages.csv", encoding = "UTF-8")
     }
     cache
   }
@@ -51,7 +48,7 @@ normalize_goal <- function(goal) {
   match.arg(goal, c("difference", "association", "adjusted_effect", "time_to_event", "agreement", "equivalence"))
 }
 
-normalize_yes_no <- function(x, arg) {
+normalize_yes_no <- function(x) {
   if (is.logical(x) && length(x) == 1L && !is.na(x)) {
     return(if (isTRUE(x)) "yes" else "no")
   }
@@ -74,6 +71,31 @@ normalize_run_mode <- function(x) {
     return(if (isTRUE(x)) "run" else "recommend")
   }
   match.arg(x, c("recommend", "run"))
+}
+
+normalize_analysis_args <- function(language = "en",
+                                    goal = "difference",
+                                    paired = "no",
+                                    repeated = "no",
+                                    adjust = "no",
+                                    outcome_type = NULL,
+                                    normality = NULL,
+                                    run = NULL) {
+  args <- list(
+    language = normalize_language(language),
+    goal = normalize_goal(goal),
+    paired = normalize_yes_no(paired),
+    repeated = normalize_yes_no(repeated),
+    adjust = normalize_yes_no(adjust),
+    outcome_type = normalize_outcome_type(outcome_type)
+  )
+  if (!is.null(normality)) {
+    args$normality <- normalize_normality(normality)
+  }
+  if (!is.null(run)) {
+    args$run <- normalize_run_mode(run)
+  }
+  args
 }
 
 sg_text <- function(language, key, ...) {

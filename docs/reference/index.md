@@ -1,6 +1,6 @@
 # Package index
 
-## Main functions
+## Main workflows
 
 - [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
   : Select and Optionally Run a Statistical Test

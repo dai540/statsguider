@@ -7,7 +7,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/dai540/statsguider/blob/HEAD/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/dai540/statsguider/blob/main/DESCRIPTION)
 
 Dai D (2026). *statsguider: Semi-Automatic Guidance for Statistical Test
 Selection*. R package version 1.0.0,

@@ -21,28 +21,30 @@ select_test <- function(data,
                         normality = "auto",
                         run = "run",
                         language = "en") {
-  language <- normalize_language(language)
-  goal <- normalize_goal(goal)
-  paired <- normalize_yes_no(paired, "paired")
-  repeated <- normalize_yes_no(repeated, "repeated")
-  adjust <- normalize_yes_no(adjust, "adjust")
-  outcome_type <- normalize_outcome_type(outcome_type)
-  normality <- normalize_normality(normality)
-  run <- normalize_run_mode(run)
+  args <- normalize_analysis_args(
+    language = language,
+    goal = goal,
+    paired = paired,
+    repeated = repeated,
+    adjust = adjust,
+    outcome_type = outcome_type,
+    normality = normality,
+    run = run
+  )
 
-  if (run == "run") {
+  if (args$run == "run") {
     return(run_test(
       data = data,
       outcome = outcome,
       group = group,
       id = id,
-      goal = goal,
-      paired = paired,
-      repeated = repeated,
-      adjust = adjust,
-      outcome_type = outcome_type,
-      normality = normality,
-      language = language
+      goal = args$goal,
+      paired = args$paired,
+      repeated = args$repeated,
+      adjust = args$adjust,
+      outcome_type = args$outcome_type,
+      normality = args$normality,
+      language = args$language
     ))
   }
 
@@ -51,12 +53,12 @@ select_test <- function(data,
     outcome = outcome,
     group = group,
     id = id,
-    goal = goal,
-    paired = paired,
-    repeated = repeated,
-    adjust = adjust,
-    outcome_type = outcome_type,
-    normality = normality,
-    language = language
+    goal = args$goal,
+    paired = args$paired,
+    repeated = args$repeated,
+    adjust = args$adjust,
+    outcome_type = args$outcome_type,
+    normality = args$normality,
+    language = args$language
   )
 }

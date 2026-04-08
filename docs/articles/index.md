@@ -1,6 +1,6 @@
 # Articles
 
-### Core
+### Core tutorials
 
 - [Start
   here](https://dai540.github.io/statsguider/articles/en-start.md):
@@ -9,12 +9,12 @@
 - [Choose by
   branching](https://dai540.github.io/statsguider/articles/en-branching.md):
 
-### English Tutorials
+### English tutorials
 
 - [Scenario
   tutorials](https://dai540.github.io/statsguider/articles/en-examples.md):
 
-### Japanese Tutorials
+### Japanese tutorials
 
 - [はじめに](https://dai540.github.io/statsguider/articles/ja-start.md):
 - [主な関数](https://dai540.github.io/statsguider/articles/ja-functions.md):

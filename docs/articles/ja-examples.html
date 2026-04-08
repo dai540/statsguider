@@ -39,19 +39,20 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><h6 class="dropdown-header" data-toc-skip>Core</h6></li>
-    <li><a class="dropdown-item" href="../articles/en-start.html">Getting Started</a></li>
-    <li><a class="dropdown-item" href="../articles/en-functions.html">Main Functions</a></li>
-    <li><a class="dropdown-item" href="../articles/en-branching.html">Branching Guide</a></li>
+<li><hr class="dropdown-divider"></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Core</h6></li>
+    <li><a class="dropdown-item" href="../articles/en-start.html">Start here</a></li>
+    <li><a class="dropdown-item" href="../articles/en-functions.html">Main functions</a></li>
+    <li><a class="dropdown-item" href="../articles/en-branching.html">Choose by branching</a></li>
     <li><hr class="dropdown-divider"></li>
-    <li><h6 class="dropdown-header" data-toc-skip>English Tutorials</h6></li>
-    <li><a class="dropdown-item" href="../articles/en-examples.html">Scenario Tutorials</a></li>
+    <li><h6 class="dropdown-header" data-toc-skip>English</h6></li>
+    <li><a class="dropdown-item" href="../articles/en-examples.html">Scenario tutorials</a></li>
     <li><hr class="dropdown-divider"></li>
-    <li><h6 class="dropdown-header" data-toc-skip>Japanese Tutorials</h6></li>
-    <li><a class="dropdown-item" href="../articles/ja-start.html">Start Page (JA)</a></li>
-    <li><a class="dropdown-item" href="../articles/ja-functions.html">Main Functions (JA)</a></li>
-    <li><a class="dropdown-item" href="../articles/ja-branching.html">Branching Guide (JA)</a></li>
-    <li><a class="dropdown-item" href="../articles/ja-examples.html">Scenario Tutorials (JA)</a></li>
+    <li><h6 class="dropdown-header" data-toc-skip>Japanese</h6></li>
+    <li><a class="dropdown-item" href="../articles/ja-start.html">はじめに</a></li>
+    <li><a class="dropdown-item" href="../articles/ja-functions.html">主な関数</a></li>
+    <li><a class="dropdown-item" href="../articles/ja-branching.html">分岐で選ぶ</a></li>
+    <li><a class="dropdown-item" href="../articles/ja-examples.html">シナリオ別チュートリアル</a></li>
   </ul>
 </li>
       </ul>
@@ -75,13 +76,13 @@
       <img src="../logo.svg" class="logo" alt=""><h1>シナリオ別チュートリアル</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/dai540/statsguider/blob/HEAD/vignettes/ja-examples.Rmd" class="external-link"><code>vignettes/ja-examples.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/dai540/statsguider/blob/main/vignettes/ja-examples.Rmd" class="external-link"><code>vignettes/ja-examples.Rmd</code></a></small>
       <div class="d-none name"><code>ja-examples.Rmd</code></div>
     </div>
 
     
     
-<p>このチュートリアルでは、小さなデータ表をいくつか自分で作り、それぞれに
+<p>このチュートリアルでは、小さなデータテーブルを作って
 <code>statsguider</code> を適用します。</p>
 <div class="section level2">
 <h2 id="シナリオ1-独立2群の連続値">シナリオ1: 独立2群の連続値<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA1-%E7%8B%AC%E7%AB%8B2%E7%BE%A4%E3%81%AE%E9%80%A3%E7%B6%9A%E5%80%A4"></a>
@@ -121,8 +122,8 @@
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: Welchのt検定</span></span>
 <span><span class="co">#&gt; - 代替手法: Mann-Whitney U検定</span></span>
-<span><span class="co">#&gt; - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。</span></span>
-<span><span class="co">#&gt; - 次の一歩: Welchのt検定に進みます。必要なら順位ベースの代替も検討してください。</span></span>
+<span><span class="co">#&gt; - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。</span></span>
+<span><span class="co">#&gt; - 次の一歩: Welchのt検定を使ってください。必要なら順位ベースの代替手法を使います。</span></span>
 <span><span class="co">#&gt; - 補足:</span></span>
 <span><span class="co">#&gt;   * 正規性を自動判定し、`yes` と分類しました。</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -137,11 +138,11 @@
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; statsguider の結果</span></span>
 <span><span class="co">#&gt; - 手法: Welchのt検定</span></span>
-<span><span class="co">#&gt; - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。</span></span>
-<span><span class="co">#&gt; - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判断されたためです。</span></span></code></pre></div>
+<span><span class="co">#&gt; - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。</span></span>
+<span><span class="co">#&gt; - 要約: Welchのt検定 を選んだ理由は、データが continuous 型、群数 2、paired = "no"、repeated = "no" だったためです。</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="シナリオ2-対応ありの前後比較">シナリオ2: 対応ありの前後比較<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA2-%E5%AF%BE%E5%BF%9C%E3%81%82%E3%82%8A%E3%81%AE%E5%89%8D%E5%BE%8C%E6%AF%94%E8%BC%83"></a>
+<h2 id="シナリオ2-対応のある前後比較">シナリオ2: 対応のある前後比較<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA2-%E5%AF%BE%E5%BF%9C%E3%81%AE%E3%81%82%E3%82%8B%E5%89%8D%E5%BE%8C%E6%AF%94%E8%BC%83"></a>
 </h2>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tbl_paired</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -180,8 +181,8 @@
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: 対応のあるt検定</span></span>
 <span><span class="co">#&gt; - 代替手法: Wilcoxon符号順位検定</span></span>
-<span><span class="co">#&gt; - 理由: 対応のある2時点の連続アウトカムで正規性も大きくは外れていないと判断しました。</span></span>
-<span><span class="co">#&gt; - 次の一歩: 対応のあるt検定に進みます。</span></span>
+<span><span class="co">#&gt; - 理由: 対応のある2時点の連続値で、正規性も大きくは崩れていないと判断しました。</span></span>
+<span><span class="co">#&gt; - 次の一歩: 対応のあるt検定を使ってください。</span></span>
 <span><span class="co">#&gt; - 補足:</span></span>
 <span><span class="co">#&gt;   * 正規性を自動判定し、`yes` と分類しました。</span></span></code></pre></div>
 </div>
@@ -230,8 +231,8 @@
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: Welch ANOVA</span></span>
 <span><span class="co">#&gt; - 代替手法: Kruskal-Wallis検定</span></span>
-<span><span class="co">#&gt; - 理由: 3群以上の独立した連続アウトカムで正規性も大きくは外れていないと判断しました。</span></span>
-<span><span class="co">#&gt; - 次の一歩: Welch ANOVAに進みます。</span></span>
+<span><span class="co">#&gt; - 理由: 連続値をもつ独立3群以上で、正規性も大きくは崩れていないと判断しました。</span></span>
+<span><span class="co">#&gt; - 次の一歩: Welch ANOVA を使ってください。</span></span>
 <span><span class="co">#&gt; - 補足:</span></span>
 <span><span class="co">#&gt;   * 正規性を自動判定し、`yes` と分類しました。</span></span></code></pre></div>
 </div>
@@ -272,12 +273,12 @@
 <span><span class="co">#&gt; statsguider の推奨</span></span>
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: Fisher正確確率検定</span></span>
-<span><span class="co">#&gt; - 代替手法: χ²検定</span></span>
-<span><span class="co">#&gt; - 理由: 独立2群のカテゴリデータで期待度数が小さいセルがあります。</span></span>
-<span><span class="co">#&gt; - 次の一歩: Fisher正確確率検定に進みます。</span></span></code></pre></div>
+<span><span class="co">#&gt; - 代替手法: カイ二乗検定</span></span>
+<span><span class="co">#&gt; - 理由: 独立2群のカテゴリデータで、期待度数が小さいと判断しました。</span></span>
+<span><span class="co">#&gt; - 次の一歩: Fisher正確確率検定を使ってください。</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="シナリオ5-対応ありの二値データ">シナリオ5: 対応ありの二値データ<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA5-%E5%AF%BE%E5%BF%9C%E3%81%82%E3%82%8A%E3%81%AE%E4%BA%8C%E5%80%A4%E3%83%87%E3%83%BC%E3%82%BF"></a>
+<h2 id="シナリオ5-対応のある二値データ">シナリオ5: 対応のある二値データ<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA5-%E5%AF%BE%E5%BF%9C%E3%81%AE%E3%81%82%E3%82%8B%E4%BA%8C%E5%80%A4%E3%83%87%E3%83%BC%E3%82%BF"></a>
 </h2>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tbl_paired_binary</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -321,7 +322,7 @@
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: McNemar検定</span></span>
 <span><span class="co">#&gt; - 理由: 対応のある二値データと判断しました。</span></span>
-<span><span class="co">#&gt; - 次の一歩: McNemar検定に進みます。</span></span></code></pre></div>
+<span><span class="co">#&gt; - 次の一歩: McNemar検定を使ってください。</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="シナリオ6-反復測定の順序データ">シナリオ6: 反復測定の順序データ<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA6-%E5%8F%8D%E5%BE%A9%E6%B8%AC%E5%AE%9A%E3%81%AE%E9%A0%86%E5%BA%8F%E3%83%87%E3%83%BC%E3%82%BF"></a>
@@ -375,11 +376,11 @@
 <span><span class="co">#&gt; - 判定: 推奨</span></span>
 <span><span class="co">#&gt; - 推奨手法: Friedman検定</span></span>
 <span><span class="co">#&gt; - 代替手法: 反復測定ANOVA</span></span>
-<span><span class="co">#&gt; - 理由: 反復測定の順序データと判断しました。</span></span>
-<span><span class="co">#&gt; - 次の一歩: Friedman検定に進みます。</span></span></code></pre></div>
+<span><span class="co">#&gt; - 理由: 順序尺度をもつ反復測定データと判断しました。</span></span>
+<span><span class="co">#&gt; - 次の一歩: Friedman検定を使ってください。</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="シナリオ7-共変量調整が必要で別枝に進むケース">シナリオ7: 共変量調整が必要で別枝に進むケース<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA7-%E5%85%B1%E5%A4%89%E9%87%8F%E8%AA%BF%E6%95%B4%E3%81%8C%E5%BF%85%E8%A6%81%E3%81%A7%E5%88%A5%E6%9E%9D%E3%81%AB%E9%80%B2%E3%82%80%E3%82%B1%E3%83%BC%E3%82%B9"></a>
+<h2 id="シナリオ7-共変量調整が必要なので停止">シナリオ7: 共変量調整が必要なので停止<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA7-%E5%85%B1%E5%A4%89%E9%87%8F%E8%AA%BF%E6%95%B4%E3%81%8C%E5%BF%85%E8%A6%81%E3%81%AA%E3%81%AE%E3%81%A7%E5%81%9C%E6%AD%A2"></a>
 </h2>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tbl_adjust</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -413,15 +414,15 @@
 <span>  language <span class="op">=</span> <span class="st">"ja"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; statsguider の推奨</span></span>
-<span><span class="co">#&gt; - 判定: 別枝へ案内</span></span>
-<span><span class="co">#&gt; - 理由: 調整が必要なので単純な非調整検定は適切な主枝ではありません。</span></span>
-<span><span class="co">#&gt; - 次の一歩: 回帰または混合モデルの枝に進んでください。</span></span>
+<span><span class="co">#&gt; - 判定: 別の解析へ案内</span></span>
+<span><span class="co">#&gt; - 理由: 共変量調整が必要なので、単純な未調整検定はこの場面に適しません。</span></span>
+<span><span class="co">#&gt; - 次の一歩: 回帰または混合モデルに進んでください。</span></span>
 <span><span class="co">#&gt; - 補足:</span></span>
-<span><span class="co">#&gt;   * 共変量調整が必要なので、単純な検定よりモデル解析の方が適切です。</span></span>
+<span><span class="co">#&gt;   * 共変量調整が必要なので、単純検定よりモデルベース解析が適切です。</span></span>
 <span><span class="co">#&gt;   * 正規性を自動判定し、`yes` と分類しました。</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="シナリオ8-カウントデータなので別枝に進むケース">シナリオ8: カウントデータなので別枝に進むケース<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA8-%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%83%87%E3%83%BC%E3%82%BF%E3%81%AA%E3%81%AE%E3%81%A7%E5%88%A5%E6%9E%9D%E3%81%AB%E9%80%B2%E3%82%80%E3%82%B1%E3%83%BC%E3%82%B9"></a>
+<h2 id="シナリオ8-カウントアウトカムなので停止">シナリオ8: カウントアウトカムなので停止<a class="anchor" aria-label="anchor" href="#%E3%82%B7%E3%83%8A%E3%83%AA%E3%82%AA8-%E3%82%AB%E3%82%A6%E3%83%B3%E3%83%88%E3%82%A2%E3%82%A6%E3%83%88%E3%82%AB%E3%83%A0%E3%81%AA%E3%81%AE%E3%81%A7%E5%81%9C%E6%AD%A2"></a>
 </h2>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tbl_count</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -455,13 +456,11 @@
 <span>  language <span class="op">=</span> <span class="st">"ja"</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; statsguider の推奨</span></span>
-<span><span class="co">#&gt; - 判定: 別枝へ案内</span></span>
+<span><span class="co">#&gt; - 判定: 別の解析へ案内</span></span>
 <span><span class="co">#&gt; - 理由: カウントアウトカムは単純比較検定に無理に入れるべきではありません。</span></span>
 <span><span class="co">#&gt; - 次の一歩: Poisson回帰または負の二項回帰に進んでください。</span></span>
 <span><span class="co">#&gt; - 補足:</span></span>
-<span><span class="co">#&gt;   * カウントアウトカムは通常、Poisson 回帰または負の二項回帰へ進む方が適切です。</span></span></code></pre></div>
-<p>このように、<code>statsguider</code>
-は「使うべき手法を出す」だけでなく、「単純検定では進まない方がよい」ケースも案内します。</p>
+<span><span class="co">#&gt;   * カウントアウトカムは通常、Poisson 回帰または負の二項回帰に進むべきです。</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

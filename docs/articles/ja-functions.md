@@ -1,8 +1,6 @@
 # 主な関数
 
-このチュートリアルでは、`statsguider` の主な関数を 1 つずつ説明します。
-
-ここで扱う関数は次の 5 つです。
+このチュートリアルでは、`statsguider` の主な 5 つの関数を説明します。
 
 - [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
 - [`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
@@ -10,72 +8,24 @@
 - [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
 - [`check_design()`](https://dai540.github.io/statsguider/reference/check_design.md)
 
-## 1. `select_test()`
-
-[`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
-は、いちばん基本になる関数です。
-
-使う場面:
-
-- どの列を使うか分かっている
-- データの性質を引数で指定したい
-- 推奨だけ見たい、またはそのまま実行したい
-
-### 主な引数
-
-- `data`
-  - 解析に使う `data.frame`
-- `outcome`
-  - 結果の列名
-- `group`
-  - 群や条件の列名
-- `id`
-  - 対応ありや反復測定のときに使う個体 ID 列名
-
-### 選択式の引数
-
-- `goal`
-  - `"difference"`: 群間差をみたい
-  - `"association"`: 関連をみたい
-  - `"adjusted_effect"`: 調整した効果をみたい
-  - `"time_to_event"`: 生存時間をみたい
-  - `"agreement"`: 一致度をみたい
-  - `"equivalence"`: 等価性や非劣性をみたい
-- `outcome_type`
-  - `"continuous"`: 連続値
-  - `"binary"`: 二値
-  - `"nominal"`: 名義カテゴリ
-  - `"ordinal"`: 順序カテゴリ
-  - `"count"`: カウント
-- `paired`
-  - `"yes"`: 同じ個体を 2 回比べる
-  - `"no"`: 独立した群を比べる
-- `repeated`
-  - `"yes"`: 同じ個体を 3 回以上測る
-  - `"no"`: 反復測定ではない
-- `adjust`
-  - `"yes"`: 共変量調整が必要
-  - `"no"`: 単純比較でよい
-- `normality`
-  - `"auto"`: 自動で参考判定
-  - `"yes"`: 正規性を仮定する
-  - `"no"`: 正規性を仮定しない
-  - `"unknown"`: わからない
-- `run`
-  - `"recommend"`: 推奨手法だけを見る
-  - `"run"`: 推奨手法を実行する
-- `language`
-  - `"en"`: 英語表示
-  - `"ja"`: 日本語表示
-
-### 使い方
-
 ``` r
 tbl_select <- data.frame(
   group = c(rep("control", 6), rep("treated", 6)),
   biomarker = c(10.2, 10.4, 10.1, 10.5, 10.3, 10.0, 11.1, 11.4, 11.0, 11.3, 11.5, 11.2)
 )
+```
 
+## 1. `select_test()`
+
+いちばん基本の入口です。列名とデータの性質を指定すると、推奨または実行を返します。
+
+重要な引数:
+
+- `data`, `outcome`, `group`, `id`
+- `goal`, `outcome_type`, `paired`, `repeated`, `adjust`, `normality`
+- `run`, `language`
+
+``` r
 select_test(
   data = tbl_select,
   outcome = "biomarker",
@@ -90,69 +40,16 @@ select_test(
 #> - 判定: 推奨
 #> - 推奨手法: Welchのt検定
 #> - 代替手法: Mann-Whitney U検定
-#> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 次の一歩: Welchのt検定に進みます。必要なら順位ベースの代替も検討してください。
+#> - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。
+#> - 次の一歩: Welchのt検定を使ってください。必要なら順位ベースの代替手法を使います。
 #> - 補足:
 #>   * 正規性を自動判定し、`yes` と分類しました。
 ```
 
-### 引数の決め方
-
-- `outcome` は「比較したい値」の列です
-- `group` は「control と treated のような群」の列です
-- 同じ個体を前後で測ったなら `paired = "yes"` です
-- 同じ個体を 3 時点以上測ったなら `repeated = "yes"` です
-- 年齢や性別などで調整したいなら `adjust = "yes"` です
-- まず結果を確認したいだけなら `run = "recommend"` にします
-
-### すぐ実行したいとき
-
-``` r
-select_test(
-  data = tbl_select,
-  outcome = "biomarker",
-  group = "group",
-  outcome_type = "continuous",
-  paired = "no",
-  repeated = "no",
-  run = "run",
-  language = "ja"
-)
-#> statsguider の結果
-#> - 手法: Welchのt検定
-#> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判断されたためです。
-```
-
 ## 2. `guided_test()`
 
-[`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
-は、質問に答える形で分岐をたどりたいときに使います。
-
-使う場面:
-
-- 引数を一度に書きたくない
-- 何を選べばよいか確認しながら進みたい
-- 半自動ナビゲーションとして使いたい
-
-### `answers` で指定する内容
-
-[`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
-では、対話的に答える代わりに `answers = list(...)` で値を渡せます。
-
-代表的な項目:
-
-- `goal`
-- `outcome`
-- `group`
-- `id`
-- `paired`
-- `repeated`
-- `adjust`
-- `outcome_type`
-- `normality`
-
-### 使い方
+質問に沿って進めたいときに使います。非対話環境では `answers = list(...)`
+で指定します。
 
 ``` r
 guided_test(
@@ -174,34 +71,15 @@ guided_test(
 #> - 判定: 推奨
 #> - 推奨手法: Welchのt検定
 #> - 代替手法: Mann-Whitney U検定
-#> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 次の一歩: Welchのt検定に進みます。必要なら順位ベースの代替も検討してください。
+#> - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。
+#> - 次の一歩: Welchのt検定を使ってください。必要なら順位ベースの代替手法を使います。
 #> - 補足:
 #>   * 正規性を自動判定し、`yes` と分類しました。
 ```
 
-### `select_test()` との違い
-
-- [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md)
-  は、引数をまとめて直接指定する関数です
-- [`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md)
-  は、分岐を一つずつ確認しながら進む関数です
-
 ## 3. `recommend_test()`
 
-[`recommend_test()`](https://dai540.github.io/statsguider/reference/recommend_test.md)
-は、推奨手法だけを見たいときに使います。
-
-返ってくる内容:
-
-- action
-- recommended method
-- alternative method
-- reason
-- next step
-- notes
-
-### 使い方
+推奨だけを見たいときに使います。実行はしません。
 
 ``` r
 recommend_test(
@@ -217,27 +95,15 @@ recommend_test(
 #> - 判定: 推奨
 #> - 推奨手法: Welchのt検定
 #> - 代替手法: Mann-Whitney U検定
-#> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 次の一歩: Welchのt検定に進みます。必要なら順位ベースの代替も検討してください。
+#> - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。
+#> - 次の一歩: Welchのt検定を使ってください。必要なら順位ベースの代替手法を使います。
 #> - 補足:
 #>   * 正規性を自動判定し、`yes` と分類しました。
 ```
 
-### 向いている場面
-
-- 実行前に選ばれた手法を確認したい
-- 自分の理解と一致しているかを見たい
-- レポートや説明の前に分岐だけ確認したい
-
 ## 4. `run_test()`
 
-[`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md)
-は、推奨された手法をそのまま実行したいときに使います。
-
-この関数は、最初に内部で推奨を確認してから実行します。  
-そのため、不適切な分岐なら無理に実行せず、停止や別枝への案内になります。
-
-### 使い方
+推奨された手法をそのまま実行します。不適切な枝なら止まります。
 
 ``` r
 run_test(
@@ -251,28 +117,13 @@ run_test(
 )
 #> statsguider の結果
 #> - 手法: Welchのt検定
-#> - 理由: 独立2群の連続アウトカムで正規性も大きくは外れていないと判断しました。
-#> - 要約: Welchのt検定 が選ばれた理由は、データが continuous 型、群数 2、paired = no、repeated = no と判断されたためです。
+#> - 理由: 連続値をもつ独立2群で、正規性も大きくは崩れていないと判断しました。
+#> - 要約: Welchのt検定 を選んだ理由は、データが continuous 型、群数 2、paired = "no"、repeated = "no" だったためです。
 ```
-
-### 向いている場面
-
-- 推奨だけでなく検定結果までほしい
-- 不適切な解析を避けながら実行したい
 
 ## 5. `check_design()`
 
-[`check_design()`](https://dai540.github.io/statsguider/reference/check_design.md)
-は、解析前に設計が適切かどうかを確認したいときに使います。
-
-チェックする内容:
-
-- 必要な列があるか
-- 群数が足りているか
-- 対応ありや反復測定なのに `id` が抜けていないか
-- 共変量調整が必要なのに単純検定へ進もうとしていないか
-
-### 使い方
+設計が単純検定に向いているかを先に確認したいときに使います。
 
 ``` r
 check_design(
@@ -314,20 +165,15 @@ check_design(
 #> [1] "no"
 ```
 
-### 向いている場面
-
-- まず設計の整合性だけ見たい
-- 実行前に不足情報がないか確認したい
-
 ## まとめ
 
 - [`select_test()`](https://dai540.github.io/statsguider/reference/select_test.md):
-  もっとも基本で、最初に使う関数
+  いちばん基本の入口
 - [`guided_test()`](https://dai540.github.io/statsguider/reference/guided_test.md):
-  質問に答えながら選びたいときに使う関数
+  順番に選びたいとき
 - [`recommend_test()`](https://dai540.github.io/statsguider/reference/recommend_test.md):
-  推奨手法だけを確認したいときに使う関数
+  実行前に推奨だけ確認したいとき
 - [`run_test()`](https://dai540.github.io/statsguider/reference/run_test.md):
-  推奨手法を実行したいときに使う関数
+  推奨手法を実行したいとき
 - [`check_design()`](https://dai540.github.io/statsguider/reference/check_design.md):
-  設計の妥当性を確認したいときに使う関数
+  設計の妥当性を先に見たいとき
