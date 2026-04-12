@@ -1,0 +1,63 @@
+---
+title: "Guide: Main Functions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Guide: Main Functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(statsguider)
+```
+
+This guide summarizes the exported functions.
+
+## `select_test()`
+
+The shortest entry point. It accepts the full argument contract and either
+returns a recommendation or runs the selected method.
+
+## `guided_test()`
+
+The interactive entry point. It asks the branching questions step by step. In a
+script, pass a named `answers` list instead of answering interactively.
+
+```{r}
+dat <- data.frame(
+  id = rep(1:6, each = 2),
+  group = rep(c("before", "after"), times = 6),
+  score = c(4, 6, 5, 7, 6, 8, 7, 8, 5, 6, 4, 5)
+)
+
+guided_test(
+  data = dat,
+  answers = list(
+    goal = "difference",
+    outcome = "score",
+    group = "group",
+    paired = "yes",
+    repeated = "no",
+    adjust = "no",
+    id = "id",
+    outcome_type = "continuous",
+    normality = "no"
+  ),
+  run = "recommend"
+)
+```
+
+## `recommend_test()`
+
+Use this when you want a structured branch decision without execution.
+
+## `run_test()`
+
+Use this when you already know the branch fits the package scope and want the
+base-R result immediately.
+
+## `check_design()`
+
+Use this when you want explicit validation and warning collection before either
+recommendation or execution.

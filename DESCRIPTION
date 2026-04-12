@@ -1,24 +1,17 @@
 Package: statsguider
 Type: Package
-Title: Semi-Automatic Guidance for Statistical Test Selection
+Title: Guided Statistical Test Selection with a Minimal Branching Workflow
 Version: 1.0.0
-Authors@R: c(
-    person(
-      given = "Dai",
-      family = "Dai",
-      role = c("aut", "cre"),
-      email = "daik54015@gmail.com"
-    )
-  )
-Description: Guides researchers through appropriate statistical test selection
-    from a data frame and a small set of study-design answers. The package uses
-    a rule-table driven engine to recommend or stop analyses, prioritizes
-    simple group-comparison workflows, and returns plain-language explanations
-    alongside executable base-R tests when a design is appropriate.
-URL: https://dai540.github.io/statsguider/,
-    https://github.com/dai540/statsguider
-BugReports: https://github.com/dai540/statsguider/issues
+Authors@R: person("Dai", role = c("aut", "cre"), email = "daik54015@gmail.com")
+Description: Provides a minimal, rule-based workflow for selecting simple
+    statistical tests from a data frame. The package focuses on single-outcome
+    group comparisons, keeps the argument contract small, executes only a
+    limited set of base-R methods, and redirects users when a simple test is
+    not the right analysis branch.
 License: MIT + file LICENSE
+URL: https://github.com/dai540/statsguider,
+    https://dai540.github.io/statsguider/
+BugReports: https://github.com/dai540/statsguider/issues
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
@@ -32,6 +25,6 @@ Suggests:
     pkgdown,
     rmarkdown,
     testthat (>= 3.0.0)
+VignetteBuilder: knitr
 Config/testthat/edition: 3
 Config/Needs/website: pkgdown
-VignetteBuilder: knitr

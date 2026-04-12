@@ -1,0 +1,105 @@
+---
+title: "Getting Started"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(statsguider)
+```
+
+`statsguider` is built for a narrow question:
+
+> "I already have a `data.frame`. Which simple statistical test matches this
+> design, and can I run it immediately?"
+
+The package keeps the input contract small:
+
+- `data`
+- `outcome`
+- `group`
+- `id` when paired or repeated data are used
+- a few choice-style arguments such as `goal`, `outcome_type`, `paired`, and
+  `run`
+
+## First recommendation
+
+Create a small table and ask for a recommendation.
+
+```{r}
+dat <- data.frame(
+  group = c(rep("control", 8), rep("treated", 8)),
+  value = c(5.0, 5.2, 4.8, 5.1, 5.3, 4.9, 5.0, 5.4,
+            6.1, 6.0, 5.8, 6.2, 6.3, 5.9, 6.1, 6.0)
+)
+
+select_test(
+  data = dat,
+  outcome = "value",
+  group = "group",
+  goal = "difference",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "no",
+  normality = "auto",
+  run = "recommend"
+)
+```
+
+## Run the test
+
+When the branch is acceptable, switch to `run = "run"`.
+
+```{r}
+select_test(
+  data = dat,
+  outcome = "value",
+  group = "group",
+  goal = "difference",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "no",
+  normality = "auto",
+  run = "run"
+)
+```
+
+## Validate before execution
+
+Use `check_design()` when you want to inspect the design contract explicitly.
+
+```{r}
+check_design(
+  data = dat,
+  outcome = "value",
+  group = "group",
+  goal = "difference",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "no"
+)
+```
+
+## What happens outside the simple branch
+
+The package redirects rather than forcing a wrong analysis.
+
+```{r}
+recommend_test(
+  data = dat,
+  outcome = "value",
+  group = "group",
+  goal = "adjusted_effect",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "yes"
+)
+```

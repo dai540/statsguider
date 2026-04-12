@@ -1,0 +1,65 @@
+---
+title: "Guide: Decision Rules"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Guide: Decision Rules}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+This package follows a deliberately small decision tree.
+
+## Step 1: is this a simple group comparison?
+
+If `goal` is anything other than `"difference"`, the package redirects:
+
+- `"association"` -> correlation or regression
+- `"adjusted_effect"` -> regression or mixed models
+- `"time_to_event"` -> Kaplan-Meier or Cox workflows
+- `"agreement"` -> ICC, Bland-Altman, or kappa workflows
+- `"equivalence"` -> TOST or non-inferiority workflows
+
+## Step 2: should the simple branch stop?
+
+Even inside `goal = "difference"`, the package redirects or stops when:
+
+- `adjust = "yes"`
+- `outcome_type = "count"`
+- paired data are requested without `id`
+- repeated data are requested without `id`
+- fewer than two group levels are available
+
+## Step 3: choose a supported branch
+
+### Continuous outcome
+
+- independent 2 groups -> Welch t-test or Mann-Whitney U test
+- paired 2 groups -> paired t-test or Wilcoxon signed-rank test
+- independent 3+ groups -> Welch ANOVA or Kruskal-Wallis test
+- repeated 3+ groups -> repeated-measures ANOVA or Friedman test
+
+### Categorical outcome
+
+- independent groups -> chi-squared or Fisher exact test
+- paired binary -> McNemar test
+
+### Ordinal outcome
+
+- independent 2 groups -> Mann-Whitney U test
+- paired 2 groups -> Wilcoxon signed-rank test
+- independent 3+ groups -> Kruskal-Wallis test
+- repeated 3+ groups -> Friedman test
+
+## Normality handling
+
+When `normality = "auto"` and the outcome is continuous, the package runs a
+small Shapiro-based check.
+
+- `"yes"` -> parametric branch
+- `"no"` or `"unknown"` -> rank-based branch
+
+This is intentionally conservative.

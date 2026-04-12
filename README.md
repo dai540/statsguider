@@ -1,33 +1,76 @@
-# statsguider <img src="man/figures/logo.svg" align="right" height="88" alt="statsguider logo" />
+# statsguider
 
-[![pkgdown](https://img.shields.io/badge/docs-pkgdown-315c86)](https://dai540.github.io/statsguider/)
 [![R-CMD-check](https://github.com/dai540/statsguider/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/dai540/statsguider/actions/workflows/R-CMD-check.yaml)
+[![pkgdown](https://github.com/dai540/statsguider/actions/workflows/pkgdown.yaml/badge.svg)](https://github.com/dai540/statsguider/actions/workflows/pkgdown.yaml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-`statsguider` is an R package for guided statistical test selection from a
-`data.frame`. It focuses on five jobs:
+`statsguider` is a small R package for **guided statistical test selection**.
+It is intentionally narrow: the package is designed for users who already have
+a `data.frame`, want to describe the data structure through a small set of
+choice-style arguments, and need either:
 
-- classify a simple group-comparison design
-- validate whether a simple test is appropriate
-- recommend a test from a small set of design choices
-- run supported base-R tests
-- redirect to model-based workflows when a simple test is the wrong branch
+- a recommendation for a simple statistical test, or
+- immediate execution of that test with base R.
 
-<https://dai540.github.io/statsguider/>
+The package does **not** try to cover all of statistics. It deliberately stops
+or redirects the analysis when the question belongs to a different branch such
+as adjusted modelling, survival analysis, agreement analysis, equivalence, or
+count regression.
 
-The input contract is intentionally simple:
+## Design Goals
 
-- `data`: the analysis table
-- `outcome`: the outcome column
-- `group`: the group or condition column when needed
-- `id`: the subject identifier for paired or repeated designs
-- choice-style arguments: `goal`, `outcome_type`, `paired`, `repeated`,
-  `adjust`, `normality`, `run`, and `language`
+The repository has been rebuilt around four constraints:
 
-Version 1.0.0 is intentionally narrow. The package is centered on simple
-single-outcome group comparison and explicitly redirects users when the data
-belong in regression, survival analysis, agreement analysis, equivalence, or
-count-model workflows.
+1. **Minimal package footprint**
+   Only the package source, tests, documentation source, and GitHub workflows
+   are tracked. Rebuildable outputs such as `.Rcheck`, tarballs, temporary
+   folders, and generated `docs/` files are not kept in the repository.
+2. **Minimal argument contract**
+   The required identifiers are `data`, `outcome`, `group`, and `id` when
+   needed. Everything else is a choice-style argument such as `paired = "yes"`
+   or `goal = "difference"`.
+3. **Minimal execution scope**
+   The package only executes a small set of base-R tests that match a simple
+   branching workflow.
+4. **Detailed documentation without heavy assets**
+   Tutorials build their own small data tables in code. No large bundled data
+   and no downloaded external datasets are used.
+
+## What the Package Covers
+
+### Supported executable branches
+
+- Independent two-group continuous comparison
+  - Welch t-test
+  - Mann-Whitney U test
+- Paired two-group continuous comparison
+  - Paired t-test
+  - Wilcoxon signed-rank test
+- Independent three-or-more-group continuous comparison
+  - Welch ANOVA
+  - Kruskal-Wallis test
+- Repeated continuous comparison across three or more conditions
+  - Repeated-measures ANOVA
+  - Friedman test
+- Independent categorical comparison
+  - Chi-squared test
+  - Fisher exact test
+- Paired binary comparison
+  - McNemar test
+- Ordinal outcome comparisons
+  - Mann-Whitney U test
+  - Wilcoxon signed-rank test
+  - Kruskal-Wallis test
+  - Friedman test
+
+### Redirected branches
+
+- association questions
+- adjusted effect estimation
+- time-to-event outcomes
+- agreement or reproducibility studies
+- equivalence or non-inferiority studies
+- count outcomes
 
 ## Installation
 
@@ -38,7 +81,7 @@ install.packages("pak")
 pak::pak("dai540/statsguider")
 ```
 
-or `remotes`:
+or with `remotes`:
 
 ```r
 install.packages("remotes")
@@ -51,107 +94,170 @@ Then load the package:
 library(statsguider)
 ```
 
-## Minimal Example
-
-`select_test()` is the main wrapper:
-
-```r
-dat <- subset(statsguider::wet_example, visit == "week4")
-
-result <- statsguider::select_test(
-  data = dat,
-  outcome = "biomarker",
-  group = "group",
-  outcome_type = "continuous",
-  paired = "no",
-  repeated = "no",
-  run = "recommend",
-  language = "en"
-)
-
-result
-```
-
-To run the supported test immediately:
-
-```r
-statsguider::select_test(
-  data = dat,
-  outcome = "biomarker",
-  group = "group",
-  outcome_type = "continuous",
-  paired = "no",
-  repeated = "no",
-  run = "run",
-  language = "en"
-)
-```
-
 ## Main Functions
 
-- `select_test()`
-- `guided_test()`
-- `recommend_test()`
-- `run_test()`
-- `check_design()`
+### `select_test()`
 
-`select_test()` and `guided_test()` return either a `statsguider_decision`
-object or a `statsguider_result` object, depending on whether the user asks
-for recommendation only or full execution.
+This is the shortest entry point. You describe the data properties with
+choice-style arguments and choose whether to only recommend or to run the test.
 
-## Supported Simple Testing Branches
+```r
+dat <- data.frame(
+  group = c(rep("control", 8), rep("treated", 8)),
+  value = c(5.0, 5.2, 4.8, 5.1, 5.3, 4.9, 5.0, 5.4,
+            6.1, 6.0, 5.8, 6.2, 6.3, 5.9, 6.1, 6.0)
+)
 
-### Continuous outcomes
+select_test(
+  data = dat,
+  outcome = "value",
+  group = "group",
+  goal = "difference",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "no",
+  normality = "auto",
+  run = "recommend"
+)
+```
 
-- independent 2 groups: Welch t-test or Mann-Whitney U test
-- paired 2 groups: paired t-test or Wilcoxon signed-rank test
-- independent 3+ groups: Welch ANOVA or Kruskal-Wallis test
-- repeated 3+ groups: repeated-measures ANOVA or Friedman test
+### `guided_test()`
 
-### Categorical and ordinal outcomes
+This function asks the same branching questions interactively. In non-interactive
+contexts, you can pass a named `answers` list.
 
-- independent categorical comparison: chi-squared test or Fisher exact test
-- paired binary comparison: McNemar test
-- ordinal comparison: Mann-Whitney U, Wilcoxon signed-rank, Kruskal-Wallis, or Friedman test
+### `recommend_test()`
 
-### Redirected branches
+Returns a structured decision object. Use this when you want to inspect the
+recommended branch before running anything.
 
-- adjusted analyses
-- association questions
-- time-to-event outcomes
-- agreement and reproducibility
-- equivalence and non-inferiority
-- count outcomes
+### `run_test()`
 
-## Built-in Example Data
+Runs the recommended base-R test when the branch is supported.
 
-- `wet_example`
+### `check_design()`
 
-`wet_example` is a small wet-lab style dataset with continuous, binary, and
-ordinal outcomes across treatment groups and visits.
+Validates whether the design fits the simple workflow. It reports issues and
+warnings before recommendation or execution.
 
-## Tutorials
+## Minimal Workflow
 
-The website is organized around:
+The intended sequence is:
 
-- core introductions: start page, main functions, branching guide
-- English scenario tutorials
-- Japanese tutorials
+1. Put the analysis data in a `data.frame`.
+2. Identify the outcome column.
+3. Identify the group column when a group comparison is intended.
+4. Mark design features with simple choices:
+   - `goal`
+   - `outcome_type`
+   - `paired`
+   - `repeated`
+   - `adjust`
+   - `normality`
+5. Use `run = "recommend"` first.
+6. Only switch to `run = "run"` after confirming the branch is correct.
 
-## Documentation
+## Argument Contract
 
-- Website: <https://dai540.github.io/statsguider/>
-- GitHub repository: <https://github.com/dai540/statsguider>
+The package intentionally uses a small set of arguments.
+
+### Data-identifying arguments
+
+- `data`
+  - a `data.frame`
+- `outcome`
+  - the name of the outcome column
+- `group`
+  - the name of the grouping column when needed
+- `id`
+  - the name of the subject identifier column for paired or repeated designs
+
+### Choice-style arguments
+
+- `goal`
+  - `"difference"`
+  - `"association"`
+  - `"adjusted_effect"`
+  - `"time_to_event"`
+  - `"agreement"`
+  - `"equivalence"`
+- `outcome_type`
+  - `"auto"`
+  - `"continuous"`
+  - `"binary"`
+  - `"nominal"`
+  - `"ordinal"`
+  - `"count"`
+- `paired`
+  - `"yes"` or `"no"`
+- `repeated`
+  - `"yes"` or `"no"`
+- `adjust`
+  - `"yes"` or `"no"`
+- `normality`
+  - `"auto"`
+  - `"yes"`
+  - `"no"`
+  - `"unknown"`
+- `run`
+  - `"recommend"`
+  - `"run"`
+
+## Return Objects
+
+### Recommendation object
+
+`recommend_test()` and `select_test(..., run = "recommend")` return a
+`statsguider_decision` object. It contains:
+
+- the action
+- the selected method
+- an alternative method when relevant
+- the reason for the branch
+- the suggested next step
+- warnings collected during design checking
+
+### Execution object
+
+`run_test()` and `select_test(..., run = "run")` return a
+`statsguider_result` object. It contains:
+
+- the decision object
+- the base-R test result
+- a short execution summary
+
+## Documentation Site
+
+The pkgdown site is organized into four sections:
+
+- **Getting Started**
+- **Guides**
+- **Tutorials**
+- **Reference**
+
+The site is published at:
+
+- <https://dai540.github.io/statsguider/>
+
+The GitHub repository is:
+
+- <https://github.com/dai540/statsguider>
+
+## Repository Policy
+
+This repository is intentionally kept small.
+
+- No large built-in datasets
+- No downloaded external example datasets
+- No tracked `.Rcheck` outputs
+- No tracked source tarballs
+- No tracked temporary directories such as `tmp_*`
+- No tracked generated `docs/` directory
 
 ## Citation
 
-If you use `statsguider`, cite the package as:
+If you use `statsguider`, cite it as:
 
-> Dai (2026). *statsguider: Guided Statistical Test Selection from a Data Frame*.
-> R package. <https://dai540.github.io/statsguider/>
-
-You can also retrieve the citation from R:
-
-```r
-citation("statsguider")
-```
+> Dai (2026). *statsguider: Guided Statistical Test Selection with a Minimal
+> Branching Workflow*. R package. <https://github.com/dai540/statsguider>

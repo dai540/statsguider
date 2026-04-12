@@ -1,0 +1,72 @@
+---
+title: "Tutorial: Paired Binary Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial: Paired Binary Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(statsguider)
+```
+
+This tutorial uses a paired binary example that leads to McNemar's test.
+
+## Build the data table
+
+```{r}
+paired_binary <- data.frame(
+  id = rep(1:12, each = 2),
+  group = rep(c("before", "after"), times = 12),
+  response = c(
+    "no", "yes",
+    "no", "no",
+    "yes", "yes",
+    "no", "yes",
+    "yes", "yes",
+    "no", "no",
+    "no", "yes",
+    "yes", "yes",
+    "no", "no",
+    "yes", "yes",
+    "no", "yes",
+    "yes", "yes"
+  )
+)
+
+paired_binary
+```
+
+## Recommendation
+
+```{r}
+recommend_test(
+  data = paired_binary,
+  outcome = "response",
+  group = "group",
+  id = "id",
+  goal = "difference",
+  outcome_type = "binary",
+  paired = "yes",
+  repeated = "no",
+  adjust = "no"
+)
+```
+
+## Run the test
+
+```{r}
+run_test(
+  data = paired_binary,
+  outcome = "response",
+  group = "group",
+  id = "id",
+  goal = "difference",
+  outcome_type = "binary",
+  paired = "yes",
+  repeated = "no",
+  adjust = "no"
+)
+```

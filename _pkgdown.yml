@@ -5,27 +5,29 @@ template:
 development:
   mode: release
 
-url: https://dai540.github.io/statsguider
+url: https://dai540.github.io/statsguider/
 
 home:
   title: statsguider
-  description: Guided statistical test selection from a data frame, with simple branching, guarded execution, and bilingual tutorials.
-
-repo:
-  url:
-    home: https://github.com/dai540/statsguider
-    source: https://github.com/dai540/statsguider/blob/main
-    issue: https://github.com/dai540/statsguider/issues/
-    user: https://github.com/
+  description: Minimal, guided statistical test selection for simple group comparisons.
 
 navbar:
   structure:
-    left: [intro, reference, articles]
-    right: [github, search]
+    left: [home, getting_started, guides, tutorials, reference]
+    right: [github]
   components:
-    intro:
-      text: Get Started
+    home:
+      text: Home
       href: index.html
+    getting_started:
+      text: Getting Started
+      href: articles/getting-started.html
+    guides:
+      text: Guides
+      href: articles/guide-decision-rules.html
+    tutorials:
+      text: Tutorials
+      href: articles/tutorial-two-group-continuous.html
     reference:
       text: Reference
       href: reference/index.html
@@ -35,32 +37,26 @@ navbar:
       aria-label: GitHub repository
 
 reference:
-  - title: Main workflows
+  - title: Main functions
     contents:
       - select_test
       - guided_test
       - recommend_test
       - run_test
       - check_design
-  - title: Example data
-    contents:
-      - wet_example
 
 articles:
-  - title: Core tutorials
-    navbar: Core
+  - title: Getting Started
+    navbar: Getting Started
     contents:
-      - en-start
-      - en-functions
-      - en-branching
-  - title: English tutorials
-    navbar: English
+      - getting-started
+  - title: Guides
+    navbar: Guides
     contents:
-      - en-examples
-  - title: Japanese tutorials
-    navbar: Japanese
+      - guide-decision-rules
+      - guide-main-functions
+  - title: Tutorials
+    navbar: Tutorials
     contents:
-      - ja-start
-      - ja-functions
-      - ja-branching
-      - ja-examples
+      - tutorial-two-group-continuous
+      - tutorial-paired-binary

@@ -1,7 +1,7 @@
 *.tar.gz
 *.Rcheck/
-artifacts/
+tmp_*/
+docs/
 .Rhistory
 .RData
 .Rproj.user/
-docs/articles/*.utf8.md

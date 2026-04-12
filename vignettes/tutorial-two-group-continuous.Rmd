@@ -1,0 +1,74 @@
+---
+title: "Tutorial: Independent Two-Group Continuous Data"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial: Independent Two-Group Continuous Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+library(statsguider)
+```
+
+This tutorial builds a small table in code and runs the full workflow.
+
+## Build the data table
+
+```{r}
+assay_table <- data.frame(
+  group = c(rep("vehicle", 10), rep("compound", 10)),
+  signal = c(10.1, 9.8, 10.5, 10.0, 9.9, 10.2, 10.4, 10.1, 9.7, 10.3,
+             11.0, 10.9, 11.1, 11.3, 10.8, 11.2, 11.4, 11.0, 10.9, 11.1)
+)
+
+assay_table
+```
+
+## Check the design
+
+```{r}
+check_design(
+  data = assay_table,
+  outcome = "signal",
+  group = "group",
+  goal = "difference",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "no"
+)
+```
+
+## Get a recommendation
+
+```{r}
+recommend_test(
+  data = assay_table,
+  outcome = "signal",
+  group = "group",
+  goal = "difference",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "no",
+  normality = "auto"
+)
+```
+
+## Run the test
+
+```{r}
+run_test(
+  data = assay_table,
+  outcome = "signal",
+  group = "group",
+  goal = "difference",
+  outcome_type = "continuous",
+  paired = "no",
+  repeated = "no",
+  adjust = "no",
+  normality = "auto"
+)
+```
